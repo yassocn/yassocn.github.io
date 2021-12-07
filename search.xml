@@ -36,4 +36,16 @@
         <tag>Vulnhub</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Kioptix Level 2</title>
+    <url>/2021/12/02/Kioptrix-Level-2/</url>
+    <content><![CDATA[<p><strong>靶机: 192.168.249.130<br>kali: 192.168.249.129</strong></p>
+]]></content>
+      <categories>
+        <category>Vulnhub系列</category>
+      </categories>
+      <tags>
+        <tag>Vulnhub</tag>
+      </tags>
+  </entry>
 </search>
