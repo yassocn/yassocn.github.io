@@ -608,7 +608,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  10
+                  227
                 </span>
               
 
@@ -648,6 +648,20 @@
         
           
             <p><strong>靶机: 192.168.249.130<br>kali: 192.168.249.129</strong></p>
+<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p><code>arp-scan -l</code><br><img src="/2021/12/02/Kioptrix-Level-2/1.png"></p>
+<p><code>nmap -sV 192.168.249.130</code>—查看开放端口</p>
+<p><img src="/2021/12/02/Kioptrix-Level-2/2.png"></p>
+<p>—-<strong>访问下80端口</strong>—-<br><img src="/2021/12/02/Kioptrix-Level-2/3.png"></p>
+<p>发现是个登录框先试试万能密码</p>
+<p><strong>username:</strong><code>admin&#39; or 1=1#</code><br><strong>password:</strong><code>123(任意密码)</code></p>
+<p><strong>发现可以登陆，即存在sql注入</strong></p>
+<p><img src="/2021/12/02/Kioptrix-Level-2/4.png"></p>
+<h4 id="二、0x00漏洞利用-sql注入"><a href="#二、0x00漏洞利用-sql注入" class="headerlink" title="二、0x00漏洞利用(sql注入)"></a>二、0x00漏洞利用(sql注入)</h4><p><strong>sqlmap跑一下数据</strong></p>
+<p><em><em>登陆框抓包,因为sql注入在username处，在username处标记</em>(减少测试时间),然后将数据包复制到1.txt中,再用sqlmap跑</em>*</p>
+<p><code>sqlmap -r 1 -level 3 -risk 2</code> –<br><img src="/2021/12/02/Kioptrix-Level-2/7.png"></p>
+<p><font color="red"><strong>sql注入盲注</strong></font><br>sqlmap只跑除了数据库webapp和表名user,但没有跑出列<br>手工+脚本注连表名都没注出来<br>不过既然能绕过登陆，那就不需跑用户名和密码了(主要是菜)</p>
+<h4 id="二、0x01漏洞利用-rce"><a href="#二、0x01漏洞利用-rce" class="headerlink" title="二、0x01漏洞利用(rce)"></a>二、0x01漏洞利用(rce)</h4><p><strong>进入后PING框，尝试命令执行</strong><br><img src="/2021/12/02/Kioptrix-Level-2/8.png"><br>发现可以命令执行，但当前为apache权限</p>
+<p><img src="/2021/12/02/Kioptrix-Level-2/9.png"></p>
 
           
         
@@ -816,7 +830,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">275</span>
+    <span title="Site words total count">492</span>
   
 </div>
 
